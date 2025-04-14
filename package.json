@@ -1,23 +1,29 @@
 {
-  "name": "black-veil-site",
+  "name": "black-veil-archive",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "watch": "next dev"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.14",
-    "next": "13.5.6",
-    "postcss": "^8.4.21",
+    "@mdx-js/loader": "^3.1.0",
+    "@next/mdx": "^15.3.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.2",
+    "framer-motion": "^12.7.2",
+    "gray-matter": "^4.0.3",
+    "next": "13.4.19",
+    "next-mdx-remote": "^4.2.0",
+    "postcss": "^8.4.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.2",
+    "watch": "^1.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "@types/react": "^19.1.2",
-    "typescript": "^5.8.3"
+    "@types/node": "22.14.1",
+    "typescript": "^5.2.2"
   }
 }

@@ -1,0 +1,103 @@
+
+# ███ SECURE OPERATIONS FILE – ASSET DOCKET
+
+**Clearance Level Required:** Level 4: BLACK VEIL OPERATIVE  
+**Object Class:** **OCTANE**  
+> *OCTANE-class assets are highly mobile, self-directed agents possessing lethal autonomy, intelligence operations capability, and a potential for rogue deviation. OCTANE assets may not be contained in a traditional sense and are instead monitored or indirectly guided.*
+
+**Threat Rating:** ██████  
+**Operational Status:** ACTIVE — UNANCHORED  
+**Containment Priority:** OBSERVE / DO NOT INTERVENE  
+
+---
+
+## Asset Designation: ASSET-CV-07 “Corvus”
+
+_"He doesn't leave corpses. He leaves audits."_
+
+---
+
+## Basic Profile
+
+- **Name:** ███ "Corvus" ██████ 
+- **Codename:** “Corvus”  
+- **Species/Entity Type:** Corvidanthrope (Crow-Humanoid)
+- **Birthdate:** Unknown
+- **Biological Sex:** Male
+- **Gender Identity:** Non-Binary (They/Them) 
+- **Nationality:** British-German 
+- **Main Languages:** English, German, Turkish 
+- **Orientation:** Unknown 
+- **Alignment:** Unknown  
+- **Height:** 6’3”  
+- **Eye Color:** Amber-Yellow (Nightvision-Adaptive)  
+- **Affiliations:** Former ██████████ Intelligence • Unknown Contracting Entities  • Former Director of Cybersecurity at  ██████████ Intelligence Corp.
+- **Current Assignment:** Freelance Operations; ████████ Network Disruption; Asset Nullification  
+
+---
+
+## Operational Field Record
+
+**Primary Roles:**  
+• Quiet Terminations  
+• Intelligence Recovery & Blackmail Structuring  
+• Cybernetic Espionage  
+• "Ghost Routing" via █████████  
+• Social Dismantling Protocols (see Incident [[CV-07-Δ]])
+
+**Verified Capabilities:**  
+• Complete system infiltration █████████  
+• Zero detection across ████████████  
+• Confirmed extraction of ████ terabytes of classified info  
+• Physical neutralization of up to ████████ in a single sweep  
+• Utilizes analog methods to erase presence — no digital trace left post-engagement  
+
+---
+
+## Appearance Notes
+
+- **Suit Description:** Tactical-layered charcoal suit, reinforced but stylized to mimic corporate attire 
+- **Tie:** Deep crimson — believed to be symbolic; not removed across 100+ ops  
+- **Weaponry:** Prefers edged instruments over firearms (avoids traceable ammo); occasionally observed with ████████  
+- **Voice:** Almost never speaks. When required, utilizes artificial modulator (sound profile matches white noise/static blend)
+
+---
+
+## Security Protocols
+
+**Containment Recommendation:**  
+Due to his OCTANE classification, Corvus cannot be physically contained under current operational doctrines. Engagement is strictly prohibited unless under ██████████  
+• Passive surveillance through fractured proxies authorized  
+• Do not engage directly  
+• Avoid digital communication traces when discussing asset CV-07  
+
+**Suggested Countermeasure Codename:** _“Mirror Blight”_ (status: ███████)
+
+---
+
+## Psychological Profile
+
+**Cognitive Pattern:**  
+███-resistant to conventional persuasion tactics.  
+Believed to experience “Moral Drift” — not inherently malicious, but operates outside expected social constructs.  
+Exhibits fascination with **symmetry**, **efficiency**, and **irony** in executions.
+
+---
+
+## Redacted Excerpt – Field Note [CV-07-DUSK]
+
+> _“He walked past three armed guards. They never looked up. The lights never flickered. The alarms never tripped. The only thing left was the silence — and the fact that our servers were three terabytes lighter.”_  
+> — ██ ████████, Systems Commander, Site V/22
+
+---
+
+## Standing Warning to All Black Veil Personnel
+
+If CV-07 “Corvus” is encountered:
+
+- Do **not** attempt contact.  
+- Do **not** acknowledge.  
+- Do **not** reference Incident [[CV-07-Δ]] or [[Sigma-Σ-Collapse]]  verbally or digitally within secure or public infrastructure.  
+- Disengage from all work relating to [REDACTED] and [REDACTED.SIGMA] archives.
+
+Failure to comply may result in **mirrored incident replication**.

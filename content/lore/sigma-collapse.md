@@ -1,0 +1,68 @@
+
+# INTERVIEW LOG – SIGMA (Σ) COLLAPSE EVENT
+
+**Interviewer:** Director Elen Marrow, Black Veil Containment Division, acting on behalf of ████████’s Internal Oversight Division  
+**Interviewee:** Asset CV-07 ("Corvus")  
+**Location:** Sub-Level Blacksite ██ – Observation Cell 3E  
+**Date:** [REDACTED]
+
+---
+**Marrow:** You were in the SIGMA vault.
+
+**Corvus:** I don’t know what that is.
+
+**Marrow:** Vault Glass, Floor 32. The Cartography Division blacksite.
+
+**Corvus:** That floor was already compromised when I arrived.
+
+**Marrow:** Our records show your access at 01:48. System logged you as root authority.
+
+**Corvus:** That’s your system’s fault. Not mine.
+
+**Marrow:** Thirty-eight personnel dead. You were the only one left standing.
+
+**Corvus:** I don’t know anything about that.
+
+**Marrow:** Your suit had trace markers from SIGMA.SPLICE.
+
+**Corvus:** Then maybe you should ask whoever put it there.
+
+**Marrow:** You wiped your own name from the archive. Why?
+
+**Corvus:** I didn’t. Maybe it was never there.
+
+**Marrow:** You erased the terminal logs, torched the backups, and buried the staff IDs under encryption loops. That’s not nothing.
+
+**Corvus:** Maybe someone really wanted this story to go missing.
+
+**Marrow:** You're playing games.
+
+**Corvus:** You dragged me in here. You’re the one guessing.
+
+**Marrow:** You’re lying.
+
+**Corvus:** Then prove it.
+
+**Marrow:** You’re walking around with a SIGMA fragment buried in your skull.
+
+**Corvus:** If that’s true, you should keep this room locked.
+
+**Marrow:** What did you bring out of that vault?
+
+**Corvus:** Dust. Maybe a few good metaphors.
+
+**Marrow:** You expect me to believe this?
+
+**Corvus:** I don’t expect anything. You’re the one that needs answers.
+
+**Marrow:** We’ll run scans.
+
+**Corvus:** You won’t find what you’re looking for.
+
+**Marrow:** Try me.
+
+**Corvus:** You think I’m hiding something. I think you’re looking for a scapegoat. So ask yourself - if I really know what SIGMA is, why am I still here?
+
+**Marrow:** That’s what we’re trying to figure out.
+
+[END LOG]

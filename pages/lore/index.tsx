@@ -78,7 +78,9 @@ export default function LoreIndex({ entries }) {
               <label className="block mb-1 text-sm text-green-400">Filter by Classification:</label>
               <select onChange={(e) => setFilter(e.target.value)} value={filter} className="bg-gray-900 border border-green-500 p-2 rounded">
                 <option value="">All</option>
-                {[...new Set(entries.map(e => e.classification))].map(c => <option key={c} value={c}>{c}</option>)}
+                {Array.from(new Set(entries.map(e => e.classification)) as Set<string>).map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                ))}
               </select>
             </div>
             <div>

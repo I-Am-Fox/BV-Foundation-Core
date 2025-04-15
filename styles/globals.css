@@ -1,8 +1,52 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply bg-black text-white;
+  @apply bg-black text-green-400 font-mono;
+}
+
+.neon-text {
+  text-shadow: 0 0 4px #00ffcc, 0 0 8px #00ffcc;
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+.caret {
+  animation: blinkCaret 1s step-end infinite;
+}
+
+@keyframes blinkCaret {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+.terminal-nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border-radius: 6px;
+}
+
+.terminal-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.terminal-link:hover {
+  color: #00ffcc;
 }

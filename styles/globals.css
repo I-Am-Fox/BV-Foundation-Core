@@ -50,3 +50,52 @@ body {
 .terminal-link:hover {
   color: #00ffcc;
 }
+
+/* === Terminal Immersion Effects === */
+
+/* Flicker animation on hover */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 22%, 24%, 55% {
+    opacity: 0.4;
+  }
+}
+
+.flicker-hover:hover {
+  animation: flicker 0.8s infinite alternate;
+  color: #22ff22;
+}
+
+/* Blinking terminal caret */
+.terminal-caret::after {
+  content: '_';
+  animation: blinkCaret 1s step-end infinite;
+  margin-left: 4px;
+  color: #22ff22;
+}
+
+/* Glowing terminal text */
+.glow {
+  text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+}
+
+/* Scanline overlay */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.1) 0px,
+          rgba(0, 0, 0, 0.1) 1px,
+          transparent 2px,
+          transparent 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}

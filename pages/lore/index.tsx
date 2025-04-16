@@ -1,138 +1,132 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import Link from 'next/link';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import type { GetStaticProps } from 'next';
 
-export async function getStaticProps() {
-  const files = fs.readdirSync(path.join(process.cwd(), 'content/lore'));
+type Entry = {
+  slug: string;
+  frontMatter: {
+    title: string;
+    classification: string;
+    asset?: string;
+  };
+};
+
+type LoreIndexProps = {
+  entries: Entry[];
+};
+
+export const getStaticProps: GetStaticProps<LoreIndexProps> = async () => {
+  const loreDirectory = path.join(process.cwd(), 'content/lore');
+  const files = fs.readdirSync(loreDirectory)
+      .filter(file => file.endsWith('.mdx') && !file.startsWith('UNCLASSIFIED'));
+
   const entries = files.map((filename) => {
-    const slug = filename.replace(/\.(mdx|md)$/, '');
-    const fileContent = fs.readFileSync(path.join('content/lore', filename), 'utf-8');
-    const { data, content } = matter(fileContent);
+    const filePath = path.join(loreDirectory, filename);
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const { data: frontMatter } = matter(fileContent);
     return {
-      slug,
-      title: data.title || slug,
-      classification: data.classification || 'Unclassified',
-      asset: data.asset || 'Unknown',
-      date: new Date(data.date || '2025-01-01').toISOString(),
-      tags: data.tags || [],
-      excerpt: content.split('\n').find((line) => line.trim().length > 0)?.slice(0, 200) + '...'
+      slug: filename.replace(/\.mdx$/, ''),
+      frontMatter: {
+        title: frontMatter.title || 'Untitled',
+        classification: (frontMatter.classification || 'UNCLASSIFIED').toUpperCase(),
+        asset: frontMatter.asset?.trim() || 'Unknown Asset',
+      },
     };
   });
 
-  const sorted = entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  return { props: { entries: sorted } };
-}
+  return {
+    props: {
+      entries,
+    },
+  };
+};
 
-export default function LoreIndex({ entries }) {
-  const [openGroups, setOpenGroups] = useState({});
-  const [filter, setFilter] = useState('');
-  const [search, setSearch] = useState('');
-  const [useDossierStyle, setUseDossierStyle] = useState(true);
+export default function LoreIndex({ entries }: LoreIndexProps) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [subExpanded, setSubExpanded] = useState<string | null>(null);
 
-  const filtered = entries.filter(entry => {
-    const matchesSearch = entry.title.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter === '' || entry.classification === filter;
-    return matchesSearch && matchesFilter;
-  });
-
-  const unclassified = filtered.filter(e => e.classification === 'Unclassified');
-  const classified = filtered.filter(e => e.classification !== 'Unclassified');
-  const grouped = classified.reduce((acc, entry) => {
-    if (!acc[entry.classification]) acc[entry.classification] = {};
-    if (!acc[entry.classification][entry.asset]) acc[entry.classification][entry.asset] = [];
-    acc[entry.classification][entry.asset].push(entry);
-    return acc;
-  }, {});
-
-  const toggle = (key) => {
-    setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggleExpand = (classification: string) => {
+    setExpanded(expanded === classification ? null : classification);
+    setSubExpanded(null);
   };
 
+  const toggleSubExpand = (asset: string) => {
+    setSubExpanded(subExpanded === asset ? null : asset);
+  };
+
+  const classifications = Array.from(new Set(
+      entries
+          .map(entry => entry.frontMatter.classification)
+  ));
+
   return (
-      <div className="bg-black min-h-screen text-white py-10 px-6 font-mono">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl text-green-400 font-bold mb-8 tracking-widest">BLACK VEIL // CLASSIFIED ARCHIVE</h1>
+      <div className="bg-black text-white px-6 py-10 min-h-screen font-mono scanlines">
+        <h1 className="text-4xl font-bold text-green-400 tracking-widest glow mb-8 terminal-caret">
+          BLACK VEIL // CLASSIFIED ARCHIVE
+        </h1>
 
-          {/* Must Read Section */}
-          {unclassified.length > 0 && (
-              <div className="mb-10 p-4 border border-yellow-500 bg-zinc-800 rounded">
-                <h2 className="text-yellow-400 text-lg font-bold mb-2 uppercase">⚠ MUST READ — CORE INDEX</h2>
-                <ul className="list-disc list-inside text-sm space-y-1">
-                  {unclassified.map(entry => (
-                      <li key={entry.slug}>
-                        <Link href={`/lore/${entry.slug}`} className="text-blue-400 hover:underline">
-                          {entry.title}
-                        </Link>
-                      </li>
-                  ))}
-                </ul>
-              </div>
-          )}
+        <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4 mb-6">
+          <p className="font-mono text-yellow-400 font-semibold">
+            ⚠️ MUST READ — CORE INDEX
+          </p>
+          <p className="text-sm text-yellow-300 font-mono mt-1">
+            • This document outlines classification protocols, clearance procedures, and access levels.<br />
+            <a
+                href="/lore/UNCLASSIFIED_black-veil-classification-index"
+                className="underline text-yellow-200 hover:text-yellow-100 transition-colors"
+            >
+              Open Classification Index →
+            </a>
+          </p>
+        </div>
 
-          {/* Classification Controls */}
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-6 gap-4">
-            <div>
-              <label className="block mb-1 text-sm text-green-400">Filter by Classification:</label>
-              <select onChange={(e) => setFilter(e.target.value)} value={filter} className="bg-gray-900 border border-green-500 p-2 rounded">
-                <option value="">All</option>
-                {Array.from(new Set(entries.map(e => e.classification)) as Set<string>).map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1 text-sm text-green-400">Search by Title:</label>
-              <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)}
-                     className="bg-gray-900 border border-green-500 p-2 rounded w-full sm:w-64" />
-            </div>
-            <div>
-              <label className="block mb-1 text-sm text-green-400">View Mode:</label>
-              <button
-                  onClick={() => setUseDossierStyle(!useDossierStyle)}
-                  className="bg-gray-800 border border-green-600 text-green-300 px-4 py-2 rounded hover:bg-green-900">
-                {useDossierStyle ? 'Switch to Dashboard' : 'Switch to Dossier'}
-              </button>
-            </div>
-          </div>
-
-          {/* Classified Groups */}
-          {Object.entries(grouped).map(([classification, assets]) => (
-              <div key={classification} className="mb-6">
+        <div className="space-y-4">
+          {classifications.map((classification) => (
+              <div key={classification}>
                 <button
-                    className="w-full text-left font-semibold bg-zinc-900 p-4 rounded border border-green-600 hover:bg-zinc-800 shadow-md transition-colors"
-                    onClick={() => toggle(classification)}
+                    onClick={() => toggleExpand(classification)}
+                    className="w-full bg-black text-left border border-green-500 px-4 py-2 text-green-300 hover:bg-green-900 transition-all duration-500"
                 >
-                  {openGroups[classification] ? '▾' : '▸'} {classification.toUpperCase()}
+                  ▶ {classification}
                 </button>
-                <AnimatePresence initial={false}>
-                  {openGroups[classification] && (
-                      <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="ml-4 mt-3 space-y-4 border-l-2 border-green-700 pl-4"
-                      >
-                        {Object.entries(assets).map(([asset, entries]) => (
-                            <div key={asset}>
-                              <div className="text-green-300 font-semibold text-sm mb-1">{asset}</div>
-                              <ul className="list-disc list-inside text-sm space-y-1">
-                                {entries.map((entry) => (
-                                    <li key={entry.slug}>
-                                      <Link href={`/lore/${entry.slug}`} className="text-blue-400 hover:underline">
-                                        {entry.title}
-                                      </Link>
-                                    </li>
-                                ))}
-                              </ul>
-                            </div>
-                        ))}
-                      </motion.div>
-                  )}
-                </AnimatePresence>
+
+                <div className={`overflow-hidden transition-all duration-500 ${expanded === classification ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="pl-4 mt-2 space-y-2">
+                    {[...new Set(
+                        entries
+                            .filter(e => e.frontMatter.classification === classification)
+                            .map(e => e.frontMatter.asset || 'Unknown Asset')
+                    )].map(asset => (
+                        <div key={asset}>
+                          <button
+                              onClick={() => toggleSubExpand(asset)}
+                              className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300"
+                          >
+                            📁 {asset}
+                          </button>
+                          <div className={`overflow-hidden transition-all duration-500 pl-6 ${subExpanded === asset ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <ul className="list-disc list-inside text-green-300">
+                              {entries
+                                  .filter(e =>
+                                      e.frontMatter.classification === classification &&
+                                      e.frontMatter.asset === asset
+                                  )
+                                  .map(e => (
+                                      <li key={e.slug}>
+                                        <Link href={`/lore/${e.slug}`} className="hover:text-green-100 underline">
+                                          {e.frontMatter.title}
+                                        </Link>
+                                      </li>
+                                  ))}
+                            </ul>
+                          </div>
+                        </div>
+                    ))}
+                  </div>
+                </div>
               </div>
           ))}
         </div>

@@ -6,7 +6,6 @@ export default function TopNav() {
             <ul className="flex gap-4 justify-center">
                 <li><Link href="/">Index</Link></li>
                 <li><Link href="/lore">Lore</Link></li>
-                <li><Link href="/characters">Characters</Link></li>
                 <li><Link href="/classified">Classified</Link></li>
                 <li><Link href="/timeline">Timeline</Link></li>
             </ul>

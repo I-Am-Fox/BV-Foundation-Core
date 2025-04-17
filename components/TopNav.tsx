@@ -6,7 +6,9 @@ export default function TopNav() {
             <ul className="flex gap-4 justify-center">
                 <li><Link href="/">Index</Link></li>
                 <li><Link href="/lore">Lore</Link></li>
-                <li><Link href="/classified">Classified</Link></li>
+                <Link href="/characters" className="hover:text-green-300 transition">
+                    Classified – Roleplay
+                </Link>
                 <li><Link href="/timeline">Timeline</Link></li>
             </ul>
         </nav>

@@ -41,14 +41,24 @@ export default function AdminPanel() {
         }
     }, [authenticated]);
 
-    const handleApprove = (filename: string) => {
+    const handleApprove = async (filename: string) => {
+        // Just log action — no GitHub commit
+        await fetch('/api/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename })
+        });
+        setSubmissions(submissions.filter(f => f.filename !== filename));
+    };
+
+    const handleApproveAndPush = (filename: string) => {
         setSelectedFile(filename);
         setShowPreview(true);
     };
 
     const confirmApprove = async () => {
         if (!selectedFile) return;
-        await fetch('/api/github-commit', {
+        await fetch('/api/github-promote', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename: selectedFile })
@@ -82,7 +92,6 @@ export default function AdminPanel() {
 
     return (
         <>
-            {/* Top-right hover-only ADMIN button */}
             <div className="fixed top-2 right-4 z-50 group">
                 <div className="text-xs text-green-900 group-hover:text-green-300 cursor-pointer font-mono"
                      onClick={() => setShowLogin(true)}>
@@ -90,7 +99,6 @@ export default function AdminPanel() {
                 </div>
             </div>
 
-            {/* Login modal */}
             {showLogin && (
                 <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
                     <div className="bg-black p-6 rounded border border-green-500 w-80">
@@ -111,14 +119,12 @@ export default function AdminPanel() {
                 </div>
             )}
 
-            {/* ACCESS GRANTED screen */}
             {accessScreen && (
                 <div className="fixed inset-0 z-40 bg-black flex items-center justify-center text-center px-4">
                     <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap">{typed}</pre>
                 </div>
             )}
 
-            {/* Hidden admin panel until verified */}
             {authenticated && !accessScreen && (
                 <div className="p-4 max-w-4xl mx-auto">
                     <h1 className="text-green-300 text-xl mb-4 font-mono">🗂 Pending Submissions</h1>
@@ -133,12 +139,18 @@ export default function AdminPanel() {
                                         <span className="ml-2 text-yellow-400">[{file.classification}]</span>
                                         <span className="ml-2 text-green-300">{file.title}</span>
                                     </div>
-                                    <div className="space-x-2 mt-2 sm:mt-0">
+                                    <div className="flex gap-2 mt-2 sm:mt-0 flex-wrap">
                                         <button
                                             onClick={() => handleApprove(file.filename)}
-                                            className="text-xs px-2 py-1 bg-green-700 hover:bg-green-600 text-white"
+                                            className="text-xs px-2 py-1 bg-yellow-700 hover:bg-yellow-600 text-white"
                                         >
                                             Approve
+                                        </button>
+                                        <button
+                                            onClick={() => handleApproveAndPush(file.filename)}
+                                            className="text-xs px-2 py-1 bg-green-700 hover:bg-green-600 text-white"
+                                        >
+                                            Approve & Push
                                         </button>
                                         <button
                                             onClick={() => handleDeny(file.filename)}
@@ -154,7 +166,6 @@ export default function AdminPanel() {
                 </div>
             )}
 
-            {/* Commit preview modal */}
             {showPreview && selectedFile && (
                 <CommitPreviewModal
                     filename={selectedFile}

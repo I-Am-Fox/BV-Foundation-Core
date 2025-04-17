@@ -25,15 +25,8 @@ export const getStaticProps: GetStaticProps<LoreIndexProps> = async () => {
 
   const files = fs
       .readdirSync(loreDirectory)
-      .filter(file =>
-          file.endsWith('.mdx') &&
-          !file.startsWith('UNCLASSIFIED') &&
-          !file.startsWith('ALPHA_') &&
-          !file.startsWith('BETA_') &&
-          !file.startsWith('DELTA_') &&
-          !file.startsWith('THETA_') &&
-          !file.startsWith('OCTANE_')
-      );
+      .filter(file => file.endsWith('.mdx') && !file.startsWith('UNCLASSIFIED'));
+
 
   const entries = files.map((filename) => {
     const filePath = path.join(loreDirectory, filename);

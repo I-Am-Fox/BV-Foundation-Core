@@ -22,7 +22,18 @@ type LoreIndexProps = {
 
 export const getStaticProps: GetStaticProps<LoreIndexProps> = async () => {
   const loreDirectory = path.join(process.cwd(), 'content/lore');
-  const files = fs.readdirSync(loreDirectory).filter(file => file.endsWith('.mdx') && !file.startsWith('UNCLASSIFIED'));
+
+  const files = fs
+      .readdirSync(loreDirectory)
+      .filter(file =>
+          file.endsWith('.mdx') &&
+          !file.startsWith('UNCLASSIFIED') &&
+          !file.startsWith('ALPHA_') &&
+          !file.startsWith('BETA_') &&
+          !file.startsWith('DELTA_') &&
+          !file.startsWith('THETA_') &&
+          !file.startsWith('OCTANE_')
+      );
 
   const entries = files.map((filename) => {
     const filePath = path.join(loreDirectory, filename);
@@ -46,6 +57,7 @@ export const getStaticProps: GetStaticProps<LoreIndexProps> = async () => {
     },
   };
 };
+
 
 export default function LoreIndex({ entries }: LoreIndexProps) {
   const [expanded, setExpanded] = useState<string | null>(null);

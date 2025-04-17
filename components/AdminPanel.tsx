@@ -1,81 +1,169 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import CommitPreviewModal from "./CommitPreviewModal";
+
+type SubmissionMeta = {
+    filename: string;
+    title?: string;
+    classification?: string;
+    asset?: string;
+};
 
 export default function AdminPanel() {
-    const [auth, setAuth] = useState(false);
-    const [password, setPassword] = useState('');
+    const [authenticated, setAuthenticated] = useState(false);
+    const [submissions, setSubmissions] = useState<SubmissionMeta[]>([]);
+    const [selectedFile, setSelectedFile] = useState<string | null>(null);
+    const [showPreview, setShowPreview] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const [error, setError] = useState('');
+    const [password, setPassword] = useState('');
+    const [accessScreen, setAccessScreen] = useState(false);
+    const [typed, setTyped] = useState('');
+
+    const accessText = '✔ ACCESS GRANTED\n\n• Submissions visible below.';
+
+    useEffect(() => {
+        if (authenticated) {
+            setAccessScreen(true);
+            let i = 0;
+            const interval = setInterval(() => {
+                setTyped(accessText.slice(0, i));
+                i++;
+                if (i > accessText.length) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        setAccessScreen(false);
+                        fetch('/api/submissions')
+                            .then(res => res.json())
+                            .then(data => setSubmissions(data.files));
+                    }, 800);
+                }
+            }, 35);
+        }
+    }, [authenticated]);
+
+    const handleApprove = (filename: string) => {
+        setSelectedFile(filename);
+        setShowPreview(true);
+    };
+
+    const confirmApprove = async () => {
+        if (!selectedFile) return;
+        await fetch('/api/github-commit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: selectedFile })
+        });
+        setSubmissions(submissions.filter(f => f.filename !== selectedFile));
+        setShowPreview(false);
+        setSelectedFile(null);
+    };
+
+    const handleDeny = async (filename: string) => {
+        await fetch('/api/deny', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename })
+        });
+        setSubmissions(submissions.filter(f => f.filename !== filename));
+    };
 
     const handleLogin = async () => {
-        setError('');
         const res = await fetch('/api/auth', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ password }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
         });
-
-        const result = await res.json();
-        if (result.success) {
-            setAuth(true);
+        const data = await res.json();
+        if (data.success) {
+            setAuthenticated(true);
             setShowLogin(false);
-        } else {
-            setError('Access Denied');
         }
     };
 
     return (
         <>
-            {/* Hidden Admin Hover Button */}
-            <div className="fixed top-4 right-4 z-40">
-                <button
-                    onClick={() => setShowLogin(true)}
-                    className="text-xs text-red-900 hover:text-red-500 transition-opacity opacity-0 hover:opacity-100"
-                >
+            {/* Top-right hover-only ADMIN button */}
+            <div className="fixed top-2 right-4 z-50 group">
+                <div className="text-xs text-green-900 group-hover:text-green-300 cursor-pointer font-mono"
+                     onClick={() => setShowLogin(true)}>
                     admin
-                </button>
+                </div>
             </div>
 
-            {/* Modal Login */}
-            {showLogin && !auth && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-                    <div className="bg-black border border-red-500 p-6 rounded-md shadow-lg text-red-300 font-mono w-80">
-                        <p className="mb-3 font-bold text-red-400 text-center">ADMIN AUTHORIZATION</p>
+            {/* Login modal */}
+            {showLogin && (
+                <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+                    <div className="bg-black p-6 rounded border border-green-500 w-80">
+                        <p className="text-green-300 mb-4 text-sm font-mono">Enter Admin Password</p>
                         <input
                             type="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter Password"
-                            className="bg-red-900 text-red-100 border border-red-700 px-3 py-2 w-full text-xs mb-3"
+                            onChange={e => setPassword(e.target.value)}
+                            className="w-full px-2 py-1 bg-black border border-green-700 text-green-200 mb-4 text-sm font-mono"
                         />
-                        {error && <p className="text-xs text-red-500 mb-2">{error}</p>}
-                        <div className="flex justify-between items-center">
-                            <button
-                                onClick={handleLogin}
-                                className="text-xs underline hover:text-red-200 transition-all"
-                            >
-                                Authenticate
-                            </button>
-                            <button
-                                onClick={() => setShowLogin(false)}
-                                className="text-xs text-red-500 hover:text-red-300"
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                        <button
+                            onClick={handleLogin}
+                            className="bg-green-700 hover:bg-green-600 text-white px-3 py-1 text-sm font-mono w-full"
+                        >
+                            Authenticate
+                        </button>
                     </div>
                 </div>
             )}
 
-            {/* Post-auth panel */}
-            {auth && (
-                <div className="fixed bottom-6 right-6 z-40 bg-black border border-green-500 p-4 text-xs text-green-300 font-mono rounded-md shadow-lg">
-                    <p className="mb-2 font-bold text-green-400">✔ ACCESS GRANTED</p>
-                    <p className="mb-1">• Submissions visible below.</p>
-                    <p className="opacity-70">[future] Approve to push → GitHub</p>
+            {/* ACCESS GRANTED screen */}
+            {accessScreen && (
+                <div className="fixed inset-0 z-40 bg-black flex items-center justify-center text-center px-4">
+                    <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap">{typed}</pre>
                 </div>
+            )}
+
+            {/* Hidden admin panel until verified */}
+            {authenticated && !accessScreen && (
+                <div className="p-4 max-w-4xl mx-auto">
+                    <h1 className="text-green-300 text-xl mb-4 font-mono">🗂 Pending Submissions</h1>
+                    {submissions.length === 0 ? (
+                        <p className="text-sm text-yellow-400 font-mono">No files in queue.</p>
+                    ) : (
+                        <ul className="space-y-2 font-mono text-green-200">
+                            {submissions.map(file => (
+                                <li key={file.filename} className="flex flex-col sm:flex-row sm:items-center sm:justify-between border border-green-800 px-4 py-2 rounded bg-black bg-opacity-40">
+                                    <div>
+                                        <span className="text-green-100">{file.filename}</span>
+                                        <span className="ml-2 text-yellow-400">[{file.classification}]</span>
+                                        <span className="ml-2 text-green-300">{file.title}</span>
+                                    </div>
+                                    <div className="space-x-2 mt-2 sm:mt-0">
+                                        <button
+                                            onClick={() => handleApprove(file.filename)}
+                                            className="text-xs px-2 py-1 bg-green-700 hover:bg-green-600 text-white"
+                                        >
+                                            Approve
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeny(file.filename)}
+                                            className="text-xs px-2 py-1 bg-red-700 hover:bg-red-600 text-white"
+                                        >
+                                            Deny
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
+
+            {/* Commit preview modal */}
+            {showPreview && selectedFile && (
+                <CommitPreviewModal
+                    filename={selectedFile}
+                    onConfirm={confirmApprove}
+                    onCancel={() => {
+                        setShowPreview(false);
+                        setSelectedFile(null);
+                    }}
+                />
             )}
         </>
     );

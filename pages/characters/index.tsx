@@ -17,7 +17,7 @@ export async function getStaticProps() {
     const files = fs.readdirSync(dir).filter(f => f.endsWith('.mdx'));
 
     const characters: Character[] = files.map(filename => {
-        const slug = filename.replace(/\.mdx$/, '');
+        const slug = filename.replace(/\.mdx$/, '').toLowerCase();
         const { data } = matter(fs.readFileSync(path.join(dir, filename), 'utf8'));
         const name = data.name || slug;
 

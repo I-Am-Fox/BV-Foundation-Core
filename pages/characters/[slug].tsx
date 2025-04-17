@@ -76,8 +76,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const slug = params?.slug as string;
-    const filePath = path.join(process.cwd(), 'content/characters', `${slug}.mdx`);
+    const slug = (params?.slug as string).toLowerCase();
+    const dir = path.join(process.cwd(), 'content/characters');
+    const matchedFile = fs.readdirSync(dir).find(f => f.toLowerCase() === `${slug}.mdx`);
+    if (!matchedFile) {
+        return { notFound: true };
+    }
+    const filePath = path.join(dir, matchedFile);
+
     const rawContent = fs.readFileSync(filePath, 'utf-8');
 
     const { content, data } = require('gray-matter')(rawContent);

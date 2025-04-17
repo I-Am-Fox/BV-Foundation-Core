@@ -69,21 +69,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const files = fs.readdirSync(dir).filter(file => file.endsWith('.mdx'));
 
     const paths = files.map(file => ({
-        params: { slug: file.replace(/\.mdx$/, '') },
+        params: { slug: file.replace(/\.mdx$/, '').toLowerCase() }, // enforce lowercase in the URL
     }));
 
     return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const slug = (params?.slug as string).toLowerCase();
-    const dir = path.join(process.cwd(), 'content/characters');
-    const matchedFile = fs.readdirSync(dir).find(f => f.toLowerCase() === `${slug}.mdx`);
-    if (!matchedFile) {
-        return { notFound: true };
-    }
-    const filePath = path.join(dir, matchedFile);
 
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+    const inputSlug = (params?.slug as string).toLowerCase();
+    const dir = path.join(process.cwd(), 'content/characters');
+
+    // Find the file matching this slug (case-insensitive)
+    const matchedFile = fs.readdirSync(dir).find(f => f.toLowerCase() === `${inputSlug}.mdx`);
+    if (!matchedFile) return { notFound: true };
+
+    const slug = matchedFile.replace(/\.mdx$/, ''); // Preserve casing for display
+    const filePath = path.join(dir, matchedFile);
     const rawContent = fs.readFileSync(filePath, 'utf-8');
 
     const { content, data } = require('gray-matter')(rawContent);
@@ -94,9 +96,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     let imageUrl = '/placeholder.png';
 
     for (const ext of exts) {
-        const full = path.join(publicPath, `${slug}.${ext}`);
+        const full = path.join(publicPath, `${slug.toLowerCase()}.${ext}`);
         if (fs.existsSync(full)) {
-            imageUrl = `/content/characters/images/${slug}.${ext}`;
+            imageUrl = `/content/characters/images/${slug.toLowerCase()}.${ext}`;
             break;
         }
     }
@@ -109,3 +111,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         },
     };
 };
+

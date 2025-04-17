@@ -108,24 +108,28 @@ export default function CharactersPage({ characters }: { characters: Character[]
                         BLACK VEIL // CHARACTER INDEX
                     </h1>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {characters.map(({ slug, name, imageUrl }) => (
+                <div className={"flex justify-center"}>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12">
+                        {characters.map(({slug, name, imageUrl}) => (
                             <Link key={slug} href={`/characters/${slug}`}>
-                                <div className="relative group overflow-hidden rounded-lg border border-green-400 hover:scale-105 transition-transform duration-300 cursor-pointer">
+                                <div
+                                    className="relative group w-96 h-96 border border-green-400 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300">
                                     <Image
                                         src={imageUrl}
                                         alt={name}
-                                        width={400}
-                                        height={400}
-                                        className="w-full h-64 object-cover group-hover:opacity-30 transition-opacity duration-300"
+                                        fill
+                                        className="object-cover transition-opacity duration-300 group-hover:opacity-20"
                                     />
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <span className="text-green-200 text-lg font-semibold">{name}</span>
+                                    <div
+                                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span
+                                            className="text-green-200 text-sm font-semibold text-center px-2">{name}</span>
                                     </div>
                                 </div>
                             </Link>
                         ))}
                     </div>
+                </div>
                 </>
             )}
         </div>

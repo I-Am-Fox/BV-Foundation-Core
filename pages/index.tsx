@@ -1,6 +1,7 @@
 import MatrixRain from '../components/MatrixRain';
 import ConsoleTitle from '../components/ConsoleTitle';
 
+
 export default function Home() {
     return (
         <div className="relative min-h-screen bg-black text-white overflow-hidden scanlines">

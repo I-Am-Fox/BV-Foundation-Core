@@ -4,6 +4,12 @@ import { Octokit } from '@octokit/rest';
 import formidable from 'formidable';
 import fs from 'fs';
 
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
+
 const GH_OWNER = process.env.GH_OWNER!;
 const GH_REPO = process.env.GH_REPO!;
 const GH_BRANCH = 'submissions'; // Target branch for staging submissions
@@ -40,13 +46,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
 
             const latestCommitSha = refData.object.sha;
-
-            await octokit.git.createRef({
-                owner: GH_OWNER,
-                repo: GH_REPO,
-                ref: `refs/heads/${GH_BRANCH}`,
-                sha: latestCommitSha,
-            })
 
             const { data: latestCommit } = await octokit.git.getCommit({
                 owner: GH_OWNER,
@@ -92,19 +91,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 sha: newCommit.sha,
             });
 
-            const { data: pullRequest } = await octokit.pulls.create({
-                owner: GH_OWNER,
-                repo: GH_REPO,
-                title: `New Submission: ${filename}`,
-                head: GH_BRANCH,
-                base: 'main',
-                body: `**File:** ${filename}\n\n**Content:**\n\`\`\`\n${fileContent}\n\`\`\``,
-            })
-
-            return res.status(200).json({ success: true, pullRequestUrl: pullRequest.html_url });
+            return res.status(200).json({ success: true });
         } catch (e) {
-            console.error('Submit error:', (e).response?.data ?? e);
-            return res.status(500).json({ error: 'Failed to commit and create pull request on GitHub' });
+            console.error('Submit error:', (e as any).response?.data || e);
+            return res.status(500).json({ error: 'Failed to commit to GitHub' });
         }
     });
 }

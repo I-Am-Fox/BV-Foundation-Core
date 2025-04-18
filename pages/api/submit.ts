@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 encoding: 'utf-8',
             });
 
-            const commitPath = `content/submissions/${filename}`;
+            const commitPath = `content/lore/${filename}`;
 
             const { data: newTree } = await octokit.git.createTree({
                 owner: GH_OWNER,

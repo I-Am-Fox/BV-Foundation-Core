@@ -4,7 +4,7 @@ export const MdxFrontmatterSchema = z.object({
   title: z.string().optional(),
   classification: z.enum([
     'OCTANE CLASS',
-    'BASELINE CLASS',
+    'FIELD AGENTS',
     'ALPHA CLASS',
     'BETA CLASS',
     'DELTA CLASS',

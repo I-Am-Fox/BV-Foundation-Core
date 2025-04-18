@@ -72,6 +72,7 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
     'DELTA CLASS',
     'OCTANE CLASS',
     'THETA CLASS',
+    'FIELD AGENTS',
   ].filter((c) => existing.has(c) || ['ALPHA CLASS', 'DELTA CLASS'].includes(c));
 
   return (

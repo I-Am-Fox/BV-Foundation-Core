@@ -41,6 +41,16 @@ export default function AdminPanel() {
         }
     }, [authenticated]);
 
+    const handleApprove = async (filename: string) => {
+        // Just log action — no GitHub commit
+        await fetch('/api/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename })
+        });
+        setSubmissions(submissions.filter(f => f.filename !== filename));
+    };
+
     const handleApproveAndPush = (filename: string) => {
         setSelectedFile(filename);
         setShowPreview(true);
@@ -48,7 +58,7 @@ export default function AdminPanel() {
 
     const confirmApprove = async () => {
         if (!selectedFile) return;
-        await fetch('/api/approve', {
+        await fetch('/api/github-promote', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename: selectedFile })
@@ -130,6 +140,12 @@ export default function AdminPanel() {
                                         <span className="ml-2 text-green-300">{file.title}</span>
                                     </div>
                                     <div className="flex gap-2 mt-2 sm:mt-0 flex-wrap">
+                                        <button
+                                            onClick={() => handleApprove(file.filename)}
+                                            className="text-xs px-2 py-1 bg-yellow-700 hover:bg-yellow-600 text-white"
+                                        >
+                                            Approve
+                                        </button>
                                         <button
                                             onClick={() => handleApproveAndPush(file.filename)}
                                             className="text-xs px-2 py-1 bg-green-700 hover:bg-green-600 text-white"

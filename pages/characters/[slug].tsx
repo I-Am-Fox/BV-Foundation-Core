@@ -5,110 +5,125 @@ import { MDXRemote } from 'next-mdx-remote';
 import type { GetStaticProps, GetStaticPaths } from 'next';
 
 type Props = {
-    source: any;
-    frontMatter: {
-        [key: string]: any;
-    };
-    imageUrl: string;
+  source: any;
+  frontMatter: {
+    [key: string]: any;
+  };
+  imageUrl: string;
 };
 
 export default function CharacterPage({ source, frontMatter, imageUrl }: Props) {
-    const {
-        name,
-        age,
-        gender,
-        orientation,
-        pronouns,
-        species,
-        affiliation,
-        kinks,
-    } = frontMatter;
+  const { name, age, gender, orientation, pronouns, species, affiliation, kinks } = frontMatter;
 
-    return (
-        <div className="bg-black text-white min-h-screen p-8 font-mono">
-            <h1 className="text-4xl font-bold text-green-400 mb-6">{name}</h1>
+  return (
+    <div className="bg-black text-white min-h-screen p-8 font-mono">
+      <h1 className="text-4xl font-bold text-green-400 mb-6">{name}</h1>
 
-            <div className="flex flex-col md:flex-row gap-8 mb-8">
-                <img
-                    src={imageUrl}
-                    alt={name}
-                    className="w-64 h-64 object-cover rounded-md border border-green-500"
-                />
+      <div className="flex flex-col md:flex-row gap-8 mb-8">
+        <img
+          src={imageUrl}
+          alt={name}
+          className="w-64 h-64 object-cover rounded-md border border-green-500"
+        />
 
-                <div className="space-y-2 text-sm">
-                    {age && <p><strong>age:</strong> {age}</p>}
-                    {gender && <p><strong>gender:</strong> {gender}</p>}
-                    {orientation && <p><strong>orientation:</strong> {orientation}</p>}
-                    {pronouns && <p><strong>pronouns:</strong> {pronouns}</p>}
-                    {species && <p><strong>species:</strong> {species}</p>}
-                    {affiliation && <p><strong>affiliation:</strong> {affiliation}</p>}
-                    {kinks && (
-                        <div>
-                            <strong>kinks:</strong>
-                            <ul className="list-disc list-inside ml-4 text-sm">
-                                {Array.isArray(kinks)
-                                    ? kinks.map((k: string) => <li key={k}>{k}</li>)
-                                    : <li>{kinks}</li>}
-                            </ul>
-                        </div>
-                    )}
-                </div>
+        <div className="space-y-2 text-sm">
+          {age && (
+            <p>
+              <strong>age:</strong> {age}
+            </p>
+          )}
+          {gender && (
+            <p>
+              <strong>gender:</strong> {gender}
+            </p>
+          )}
+          {orientation && (
+            <p>
+              <strong>orientation:</strong> {orientation}
+            </p>
+          )}
+          {pronouns && (
+            <p>
+              <strong>pronouns:</strong> {pronouns}
+            </p>
+          )}
+          {species && (
+            <p>
+              <strong>species:</strong> {species}
+            </p>
+          )}
+          {affiliation && (
+            <p>
+              <strong>affiliation:</strong> {affiliation}
+            </p>
+          )}
+          {kinks && (
+            <div>
+              <strong>kinks:</strong>
+              <ul className="list-disc list-inside ml-4 text-sm">
+                {Array.isArray(kinks) ? (
+                  kinks.map((k: string) => <li key={k}>{k}</li>)
+                ) : (
+                  <li>{kinks}</li>
+                )}
+              </ul>
             </div>
-
-            <hr className="border-green-800 my-6" />
-
-            <div className="prose prose-invert max-w-3xl">
-                <MDXRemote {...source} />
-            </div>
+          )}
         </div>
-    );
+      </div>
+
+      <hr className="border-green-800 my-6" />
+
+      <div className="prose prose-invert max-w-3xl">
+        <MDXRemote {...source} />
+      </div>
+    </div>
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const dir = path.join(process.cwd(), 'content/characters');
-    const files = fs.readdirSync(dir).filter(file => file.endsWith('.mdx'));
+  const dir = path.join(process.cwd(), 'content/characters');
+  const files = fs.readdirSync(dir).filter((file) => file.endsWith('.mdx'));
 
-    const paths = files.map(file => ({
-        params: { slug: file.replace(/\.mdx$/, '').toLowerCase() }, // enforce lowercase in the URL
-    }));
+  const paths = files.map((file) => ({
+    params: { slug: file.replace(/\.mdx$/, '').toLowerCase() }, // enforce lowercase in the URL
+  }));
 
-    return { paths, fallback: false };
+  return { paths, fallback: false };
 };
-
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const inputSlug = (params?.slug as string).toLowerCase();
-    const dir = path.join(process.cwd(), 'content/characters');
+  const inputSlug = (params?.slug as string).toLowerCase();
+  const dir = path.join(process.cwd(), 'content/characters');
 
-    // Find the file matching this slug (case-insensitive)
-    const matchedFile = fs.readdirSync(dir).find(f => f.toLowerCase() === `${inputSlug}.mdx`);
-    if (!matchedFile) return { notFound: true };
+  // Find the file matching this slug (case-insensitive)
+  const matchedFile = fs.readdirSync(dir).find((f) => f.toLowerCase() === `${inputSlug}.mdx`);
+  if (!matchedFile) return { notFound: true };
 
-    const slug = matchedFile.replace(/\.mdx$/, ''); // Preserve casing for display
-    const filePath = path.join(dir, matchedFile);
-    const rawContent = fs.readFileSync(filePath, 'utf-8');
+  const slug = matchedFile.replace(/\.mdx$/, ''); // Preserve casing for display
+  const filePath = path.join(dir, matchedFile);
+  const rawContent = fs.readFileSync(filePath, 'utf-8');
 
-    const { content, data } = require('gray-matter')(rawContent);
-    const mdxSource = await serialize(content);
+  const { content, data } = require('gray-matter')(rawContent);
+  const mdxSource = await serialize(content);
 
-    const publicPath = path.join(process.cwd(), 'public', 'content', 'characters', 'images');
-    const exts = ['jpg', 'png', 'webp'];
-    let imageUrl = '/placeholder.png';
+  const publicPath = path.join(process.cwd(), 'public', 'content', 'characters', 'images');
+  const exts = ['jpg', 'png', 'webp'];
+  let imageUrl = '/placeholder.png';
 
-    for (const ext of exts) {
-        const full = path.join(publicPath, `${slug.toLowerCase()}.${ext}`);
-        if (fs.existsSync(full)) {
-            imageUrl = `/content/characters/images/${slug.toLowerCase()}.${ext}`;
-            break;
-        }
+  for (const ext of exts) {
+    const full = path.join(publicPath, `${slug.toLowerCase()}.${ext}`);
+    if (fs.existsSync(full)) {
+      imageUrl = `/content/characters/images/${slug.toLowerCase()}.${ext}`;
+      break;
     }
+  }
 
-    return {
-        props: {
-            source: mdxSource,
-            frontMatter: data,
-            imageUrl,
-        },
-    };
+  return {
+    props: {
+      source: mdxSource,
+      frontMatter: data,
+      imageUrl,
+    },
+  };
 };
-

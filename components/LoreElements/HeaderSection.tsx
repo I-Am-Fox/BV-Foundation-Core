@@ -1,8 +1,11 @@
-
-export default function HeaderSection({ date, objectClass, asset }: Readonly<{
-    date: string | number | Date;
-    objectClass: string;
-    asset: string
+export default function HeaderSection({
+  date,
+  objectClass,
+  asset,
+}: Readonly<{
+  date: string | number | Date;
+  objectClass: string;
+  asset: string;
 }>) {
   return (
     <div className="mb-6 border-b border-green-700 pb-3">

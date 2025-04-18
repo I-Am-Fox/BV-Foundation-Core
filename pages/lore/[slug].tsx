@@ -4,11 +4,11 @@ import path from 'path';
 import matter from 'gray-matter';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import type {GetStaticPaths, GetStaticProps } from 'next';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import HeaderSection from '../../components/LoreElements/HeaderSection';
 import WarningBox from '../../components/LoreElements/WarningBox';
 import DossierTagList from '../../components/LoreElements/DossierTagList';
-import {MdxFrontmatterSchema, MdxFrontmatter} from "../../lib/mdx-schema";
+import { MdxFrontmatterSchema, MdxFrontmatter } from '../../lib/mdx-schema';
 
 interface Props {
   frontMatter: MdxFrontmatter;
@@ -17,19 +17,19 @@ interface Props {
 
 export default function LoreEntry({ frontMatter, mdxSource }: Readonly<Props>) {
   return (
-      <div className="bg-black text-white min-h-screen p-4">
-        <div className="prose prose-invert max-w-4xl mx-auto">
-          <MDXRemote {...mdxSource} components={{ HeaderSection, WarningBox, DossierTagList }} />
-        </div>
+    <div className="bg-black text-white min-h-screen p-4">
+      <div className="prose prose-invert max-w-4xl mx-auto">
+        <MDXRemote {...mdxSource} components={{ HeaderSection, WarningBox, DossierTagList }} />
       </div>
+    </div>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const loreDir = path.join(process.cwd(), 'content', 'lore');
-  const files = fs.readdirSync(loreDir).filter(f => f.endsWith('.mdx'));
-  const paths = files.map(file => ({
-    params: { slug: file.replace(/\.mdx$/, '') }
+  const files = fs.readdirSync(loreDir).filter((f) => f.endsWith('.mdx'));
+  const paths = files.map((file) => ({
+    params: { slug: file.replace(/\.mdx$/, '') },
   }));
   return { paths, fallback: false };
 };

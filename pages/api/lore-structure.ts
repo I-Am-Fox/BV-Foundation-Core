@@ -1,15 +1,14 @@
-
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const lorePath = path.join(process.cwd(), 'content/lore');
   const files = fs.readdirSync(lorePath);
   const structure: Record<string, Record<string, { slug: string; title: string }[]>> = {};
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const slug = file.replace(/\.(mdx|md)$/, '');
     const fileContent = fs.readFileSync(path.join(lorePath, file), 'utf-8');
     const { data } = matter(fileContent);

@@ -5,17 +5,38 @@ import ConsoleTitle from '../components/ConsoleTitle';
 const Home: React.FC = () => {
     return (
         <div className="relative min-h-screen bg-black text-white overflow-hidden scanlines">
-            <header className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 p-4 border border-red-500 bg-black/80 text-center z-20 rounded shadow-lg">
-                <p className="text-red-500 text-sm md:text-lg uppercase tracking-wide">
-                    WARNING: THE FOUNDATION DATABASE IS
-                </p>
-                <p className="text-red-500 text-2xl md:text-4xl font-bold uppercase tracking-wider mt-2">
+            <header
+                aria-label='Warning: classified database'
+                className='
+    absolute
+    top-0
+    left-1/2
+    transform
+    -translate-x-1/2
+    mt-4
+    p-4
+    border
+    border-red-500
+    bg-black/80
+    text-center
+    z-20
+    rounded
+    shadow-lg
+  '
+            >
+                <h1 className='text-red-500 text-sm md:text-lg uppercase tracking-wide'>
+                    WARNING: THE FOUNDATION
+                    DATABASE IS
+                </h1>
+                <h2 className='text-red-500 text-2xl md:text-4xl font-bold uppercase tracking-wider mt-2'>
                     CLASSIFIED
-                </p>
-                <p className="text-red-500 text-sm md:text-lg uppercase tracking-wide mt-2">
-                    UNAUTHORIZED PERSONNEL WILL BE TRACKED, LOCATED, AND DETAINED
+                </h2>
+                <p className='text-red-500 text-xs md:text-sm uppercase tracking-wide mt-2'>
+                    Unauthorized personnel will be tracked,
+                    located, and detained
                 </p>
             </header>
+
             <MatrixRain />
             <main className="min-h-screen w-full flex flex-col items-center justify-center px-4 py-10 text-center relative z-10">
                 <ConsoleTitle

@@ -96,10 +96,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = (params?.slug as string).toLowerCase();
   const dir = path.join(process.cwd(), 'content/characters');
 
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.mdx'));
-  const matchedFile = files.find(f =>
-      f.toLowerCase().replace(/\.mdx$/, '') === slug
+  const files = fs.readdirSync(dir).filter(file => file.endsWith('.mdx'));
+  const matchedFile = files.find(file =>
+      file.toLowerCase().replace(/\.mdx$/, '') === slug
   );
+
 
   if (!matchedFile) return { notFound: true };
 

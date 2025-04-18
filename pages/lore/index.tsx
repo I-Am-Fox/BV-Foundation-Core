@@ -67,12 +67,13 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
 
   const existing = new Set(entries.map((entry) => entry.frontMatter.classification));
   const classifications = [
+    'FIELD AGENTS',
     'ALPHA CLASS',
     'BETA CLASS',
     'DELTA CLASS',
     'OCTANE CLASS',
     'THETA CLASS',
-    'FIELD AGENTS',
+
   ].filter((c) => existing.has(c) || ['ALPHA CLASS', 'DELTA CLASS'].includes(c));
 
   return (
@@ -128,11 +129,16 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
         {classifications.map((classification) => (
           <div key={classification}>
             <button
-              onClick={() => toggleExpand(classification)}
-              className="w-full bg-black text-left border border-green-500 px-4 py-2 text-green-300 hover:bg-green-900 transition-all duration-500"
+                onClick={() => toggleExpand(classification)}
+                className={`w-full text-left px-4 py-2 transition-all duration-500 ${
+                    classification === 'FIELD AGENTS'
+                        ? 'bg-black text-left border border-pink-500 text-pink-300 hover:bg-pink-900 transition-all duration-500"'
+                        : 'bg-black text-left border border-green-500 text-green-300 hover:bg-green-900 transition-all duration-500"'
+                }`}
             >
               ▶ {classification}
             </button>
+
 
             <div
               className={`overflow-hidden transition-all duration-500 ${expanded === classification ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}

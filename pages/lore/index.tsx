@@ -91,12 +91,12 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
             • This document outlines classification protocols, clearance procedures, and access
             levels.
             <br />
-            <a
+            <Link
               href="/lore/UNCLASSIFIED_black-veil-classification-index"
               className="underline text-yellow-200 hover:text-yellow-100 transition-colors"
             >
               Open Classification Index →
-            </a>
+            </Link>
           </p>
         </div>
 

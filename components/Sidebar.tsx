@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const COLORS = {
@@ -11,9 +11,9 @@ const COLORS = {
   'UNCLASSIFIED': 'text-gray-400',
 };
 
-export default function Sidebar({ children }) {
-  const [structure, setStructure] = useState({});
-  const [openGroups, setOpenGroups] = useState({});
+export default function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
+  const [structure, setStructure] = useState<Record<string, Record<string, { slug: string; title: string }[]>>>({});
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     fetch('/api/lore-structure')
@@ -21,8 +21,8 @@ export default function Sidebar({ children }) {
       .then(setStructure);
   }, []);
 
-  const toggle = (key) => {
-    setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggle = (key: string) => {
+    setOpenGroups(prev => ({ ...prev, [key]: !(prev[key] ?? false) }));
   };
 
   return (
@@ -38,7 +38,7 @@ export default function Sidebar({ children }) {
         <hr className="my-4 border-green-800" />
         <nav className="space-y-3 text-sm">
           {Object.entries(structure).map(([classification, assets]) => {
-            const color = COLORS[classification.toUpperCase()] || 'text-white';
+            const color = COLORS[classification.toUpperCase() as keyof typeof COLORS] ?? 'text-white';
             return (
               <div key={classification}>
                 <button
@@ -56,7 +56,7 @@ export default function Sidebar({ children }) {
                       transition={{ duration: 0.2 }}
                       className="ml-3 mt-1 space-y-2 border-l border-green-800 pl-3"
                     >
-                      {Object.entries(assets).map(([asset, entries]) => (
+                      {Object.entries(assets).map(([asset, entries]: [string, { slug: string; title: string }[]]) => (
                         <div key={asset}>
                           <div className="text-green-300 font-mono text-xs mb-1">{asset}</div>
                           <ul className="space-y-1 text-xs list-disc list-inside text-blue-300">

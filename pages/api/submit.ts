@@ -100,7 +100,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             return res.status(200).json({ success: true, pullRequestUrl: pullRequest.html_url });
         } catch (e) {
-            console.error('Submit error:', (e).response?.data ?? e);
+            console.error('Submit error:', (e as any).response?.data ?? e);
             return res.status(500).json({ error: 'Failed to commit and create pull request on GitHub' });
         }
     });

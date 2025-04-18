@@ -1,5 +1,9 @@
 
-export default function HeaderSection({ date, objectClass, asset }) {
+export default function HeaderSection({ date, objectClass, asset }: Readonly<{
+    date: string | number | Date;
+    objectClass: string;
+    asset: string
+}>) {
   return (
     <div className="mb-6 border-b border-green-700 pb-3">
       <div className="text-sm text-green-400 tracking-widest uppercase">Asset: {asset}</div>

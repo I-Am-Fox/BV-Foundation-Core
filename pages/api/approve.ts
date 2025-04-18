@@ -65,8 +65,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json({ success: true });
     } catch (err) {
         console.error('❌ GitHub commit error:', {
-            message: (err).message,
-            response: (err).response?.data
+            message: (err as any).message,
+            response: (err as any).response?.data
         });
         res.status(500).json({ error: 'GitHub commit failed.' });
     }

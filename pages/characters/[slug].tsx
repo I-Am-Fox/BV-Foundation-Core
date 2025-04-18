@@ -97,7 +97,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const dir = path.join(process.cwd(), 'content/characters');
 
   // Find the file matching this slug (case-insensitive)
-  const matchedFile = fs.readdirSync(dir).find((f) => f.toLowerCase() === `${inputSlug}.mdx`);
+  const matchedFile = fs.readdirSync(dir).find((f) =>
+      f.toLowerCase().replace(/\.mdx$/, '') === inputSlug
+  );
+
   if (!matchedFile) return { notFound: true };
 
   const slug = matchedFile.replace(/\.mdx$/, ''); // Preserve casing for display

@@ -41,13 +41,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const latestCommitSha = refData.object.sha;
 
-            await octokit.git.createRef({
-                owner: GH_OWNER,
-                repo: GH_REPO,
-                ref: `refs/heads/${GH_BRANCH}`,
-                sha: latestCommitSha,
-            })
-
             const { data: latestCommit } = await octokit.git.getCommit({
                 owner: GH_OWNER,
                 repo: GH_REPO,

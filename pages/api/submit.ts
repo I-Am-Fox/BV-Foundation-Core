@@ -9,6 +9,10 @@ const GH_REPO = process.env.GH_REPO!;
 const GH_BRANCH = 'submissions'; // Target branch for staging submissions
 const GH_TOKEN = process.env.GH_TOKEN!;
 
+export const config = {
+    api: { bodyParser: false },
+};
+
 const octokit = new Octokit({ auth: GH_TOKEN });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

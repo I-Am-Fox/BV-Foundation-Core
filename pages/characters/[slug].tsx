@@ -93,31 +93,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const inputSlug = (params?.slug as string).toLowerCase();
+  const slug = (params?.slug as string).toLowerCase();
   const dir = path.join(process.cwd(), 'content/characters');
 
-  // Find the file matching this slug (case-insensitive)
-  const matchedFile = fs.readdirSync(dir).find((f) =>
-      f.toLowerCase().replace(/\.mdx$/, '') === inputSlug
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.mdx'));
+  const matchedFile = files.find(f =>
+      f.toLowerCase().replace(/\.mdx$/, '') === slug
   );
 
   if (!matchedFile) return { notFound: true };
 
-  const slug = matchedFile.replace(/\.mdx$/, ''); // Preserve casing for display
   const filePath = path.join(dir, matchedFile);
   const rawContent = fs.readFileSync(filePath, 'utf-8');
-
   const { content, data } = require('gray-matter')(rawContent);
   const mdxSource = await serialize(content);
 
+  const baseSlug = matchedFile.replace(/\.mdx$/, '').toLowerCase();
   const publicPath = path.join(process.cwd(), 'public', 'content', 'characters', 'images');
   const exts = ['jpg', 'png', 'webp'];
   let imageUrl = '/placeholder.png';
 
   for (const ext of exts) {
-    const full = path.join(publicPath, `${slug.toLowerCase()}.${ext}`);
+    const full = path.join(publicPath, `${baseSlug}.${ext}`);
     if (fs.existsSync(full)) {
-      imageUrl = `/content/characters/images/${slug.toLowerCase()}.${ext}`;
+      imageUrl = `/content/characters/images/${baseSlug}.${ext}`;
       break;
     }
   }

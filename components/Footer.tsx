@@ -7,8 +7,7 @@ export default function Footer() {
         <p className="opacity-80">© {new Date().getFullYear()} BLACK VEIL OPERATIONS</p>
         <p className="opacity-30 text-center">
           {' '}
-          Version 1.4 — For the ones who drifted, and the ones who stayed. <br />
-          In memoriam of the conversations that shaped this.
+          System Update v1.4 — Clearance protocols refreshed. Logged by Overseer.
         </p>
         <Link href="/privacy" className="underline hover:text-green-100 transition-colors">
           Privacy Protocols →

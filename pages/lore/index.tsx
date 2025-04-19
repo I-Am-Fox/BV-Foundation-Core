@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { GetStaticProps } from 'next';
 import ContributeModal from '../../components/ContributeModal';
 import AdminPanel from '../../components/AdminPanel';
+import Directive from '../../components/Directive';
 
 type Entry = {
   slug: string;
@@ -82,8 +83,14 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
       </h1>
 
       <>
+        <Directive />
+      </>
+
+      <>
         <AdminPanel />
       </>
+
+
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">

@@ -110,14 +110,26 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
           <p className="font-mono text-red-400 font-semibold">🛠️ CONTRIBUTE TO BLACK VEIL</p>
           <p className="text-sm text-red-300 font-mono mt-1">
             • Submit intel, assets, or redacted entries.
-            <br />• All submissions are screened by Protocol-C.
+            <br />• All submissions are screened by Protocol‑C.
           </p>
-          <button
-            onClick={() => setShowContribute(true)}
-            className="mt-2 inline-block text-xs underline text-red-200 hover:text-red-100 transition"
-          >
-            Begin Submission →
-          </button>
+
+          {/* wrap them in a flex container */}
+          <div className="mt-4 flex items-center">
+            <button
+              onClick={() => setShowContribute(true)}
+              className="text-xs underline text-red-200 hover:text-red-100 transition"
+            >
+              Begin Submission →
+            </button>
+
+            {/* push this to the far right */}
+            <Link
+              href="/lore/submission-help"
+              className="ml-auto text-xs underline text-red-200 hover:text-red-100 transition"
+            >
+              Submission Help →
+            </Link>
+          </div>
         </div>
 
         <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">

@@ -90,8 +90,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
         <AdminPanel />
       </>
 
-
-
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">
           <p className="font-mono text-yellow-400 font-semibold">⚠️ MUST READ — CORE INDEX</p>

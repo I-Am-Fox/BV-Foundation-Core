@@ -111,8 +111,8 @@ export default function CharactersPage({ characters }: { characters: Character[]
           <div className="max-w-screen-lg mx-auto px-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {characters.map(({ slug, name, imageUrl }) => (
-                  <Link key={slug} href={`/characters/${slug}`}>
-                    <div className="relative group w-full aspect-square border border-green-400 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300">
+                <Link key={slug} href={`/characters/${slug}`}>
+                  <div className="relative group w-full aspect-square border border-green-400 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300">
                     <Image
                       src={imageUrl}
                       alt={name}

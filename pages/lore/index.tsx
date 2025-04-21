@@ -7,7 +7,7 @@ import type { GetStaticProps } from 'next';
 import ContributeModal from '../../components/ContributeModal';
 import AdminPanel from '../../components/AdminPanel';
 import Directive from '../../components/Directive';
-import ContainmentMonitor from "../../components/ContainmentMonitor";
+import ContainmentMonitor from '../../components/ContainmentMonitor';
 
 type Entry = {
   slug: string;
@@ -134,7 +134,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
         </div>
 
         <ContainmentMonitor entries={entries} />
-
       </div>
 
       <div className="space-y-4">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 export default function PrivacyPage() {
@@ -12,16 +11,17 @@ export default function PrivacyPage() {
 
       <div className="space-y-4">
         <p className="text-sm opacity-80">
-          All transmissions, interactions, and archived data within the BLACK VEIL NETWORK are monitored under Directive XIII.
-          Any unauthorized access is logged and reviewed by Security Oversight Unit CORVUS.
+          All transmissions, interactions, and archived data within the BLACK VEIL NETWORK are
+          monitored under Directive XIII. Any unauthorized access is logged and reviewed by Security
+          Oversight Unit CORVUS.
         </p>
         <p className="text-sm opacity-80">
-          Collected metadata includes timestamp, location grid, classification clearance, and anomaly exposure level.
-          No biometric identifiers are stored without agent consent.
+          Collected metadata includes timestamp, location grid, classification clearance, and
+          anomaly exposure level. No biometric identifiers are stored without agent consent.
         </p>
         <p className="text-sm opacity-80">
-          By remaining on this page, you acknowledge the above protocols.
-          For full disclosure, request FORM-V19 through secure channels.
+          By remaining on this page, you acknowledge the above protocols. For full disclosure,
+          request FORM-V19 through secure channels.
         </p>
       </div>
 
@@ -41,12 +41,10 @@ export default function PrivacyPage() {
               ⚠️ DATA COLLECTION DISCLOSURE
             </h2>
             <p className="text-sm">
-              BLACK VEIL archives non-identifiable transmission metadata. No voice, biometric, or embedded psychometric
-              data is stored without explicit [CLEARANCE-5] authorization.
+              BLACK VEIL archives non-identifiable transmission metadata. No voice, biometric, or
+              embedded psychometric data is stored without explicit [CLEARANCE-5] authorization.
             </p>
-            <p className="text-sm">
-              Continued usage constitutes passive consent under Protocol-7.
-            </p>
+            <p className="text-sm">Continued usage constitutes passive consent under Protocol-7.</p>
             <button
               onClick={() => setShowOverlay(false)}
               className="mt-4 bg-yellow-500 text-black font-bold px-4 py-1 text-xs hover:bg-yellow-400 transition-all"

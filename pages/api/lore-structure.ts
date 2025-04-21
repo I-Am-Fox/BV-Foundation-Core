@@ -1,14 +1,14 @@
-
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const lorePath = path.join(process.cwd(), 'content/lore');
   const files = fs.readdirSync(lorePath);
-  const structure = {};
+  const structure: Record<string, Record<string, { slug: string; title: string }[]>> = {};
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const slug = file.replace(/\.(mdx|md)$/, '');
     const fileContent = fs.readFileSync(path.join(lorePath, file), 'utf-8');
     const { data } = matter(fileContent);
@@ -16,8 +16,8 @@ export default function handler(req, res) {
     const asset = data.asset || 'Unknown';
     const entry = { slug, title: data.title || slug };
 
-    if (!structure[classification]) structure[classification] = {};
-    if (!structure[classification][asset]) structure[classification][asset] = [];
+    structure[classification] ??= {};
+    structure[classification][asset] ??= [];
     structure[classification][asset].push(entry);
   });
 

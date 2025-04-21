@@ -7,22 +7,32 @@ body {
 }
 
 .neon-text {
-  text-shadow: 0 0 4px #00ffcc, 0 0 8px #00ffcc;
+  text-shadow:
+    0 0 4px #00ffcc,
+    0 0 8px #00ffcc;
 }
 
 .typewriter {
   overflow: hidden;
   white-space: nowrap;
-  animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+  animation:
+    typing 3s steps(40, end),
+    blink 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink {
-  50% { border-color: transparent }
+  50% {
+    border-color: transparent;
+  }
 }
 
 .caret {
@@ -30,8 +40,13 @@ body {
 }
 
 @keyframes blinkCaret {
-  0%, 100% { opacity: 1 }
-  50% { opacity: 0 }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .terminal-nav {
@@ -55,10 +70,20 @@ body {
 
 /* Flicker animation on hover */
 @keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
     opacity: 1;
   }
-  20%, 22%, 24%, 55% {
+  20%,
+  22%,
+  24%,
+  55% {
     opacity: 0.4;
   }
 }
@@ -78,7 +103,9 @@ body {
 
 /* Glowing terminal text */
 .glow {
-  text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+  text-shadow:
+    0 0 5px #00ff00,
+    0 0 10px #00ff00;
 }
 
 /* Scanline overlay */
@@ -90,11 +117,11 @@ body {
   width: 100%;
   height: 100%;
   background-image: repeating-linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.1) 0px,
-          rgba(0, 0, 0, 0.1) 1px,
-          transparent 2px,
-          transparent 4px
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 2px,
+    transparent 4px
   );
   pointer-events: none;
   z-index: 9999;

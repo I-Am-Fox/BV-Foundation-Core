@@ -14,7 +14,7 @@ type Entry = {
   frontMatter: {
     title: string;
     classification: string;
-    asset?: string;
+    asset: string;
   };
 };
 

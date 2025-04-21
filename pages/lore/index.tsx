@@ -7,6 +7,7 @@ import type { GetStaticProps } from 'next';
 import ContributeModal from '../../components/ContributeModal';
 import AdminPanel from '../../components/AdminPanel';
 import Directive from '../../components/Directive';
+import ContainmentMonitor from "../../components/ContainmentMonitor";
 
 type Entry = {
   slug: string;
@@ -132,13 +133,8 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
           </div>
         </div>
 
-        <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">
-          <p className="font-mono text-yellow-400 font-semibold">🔒 PRIVACY PROTOCOLS IN EFFECT</p>
-          <p className="text-sm text-yellow-300 font-mono mt-1">
-            • All activity is monitored and logged.
-            <br />• Passive consent enforced under Protocol-7.
-          </p>
-        </div>
+        <ContainmentMonitor entries={entries} />
+
       </div>
 
       <div className="space-y-4">

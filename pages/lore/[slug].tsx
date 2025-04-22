@@ -9,7 +9,7 @@ import HeaderSection from '../../components/LoreElements/HeaderSection';
 import WarningBox from '../../components/LoreElements/WarningBox';
 import DossierTagList from '../../components/LoreElements/DossierTagList';
 import { MdxFrontmatterSchema, MdxFrontmatter } from '../../lib/mdx-schema';
-import rehypeGlitchEcho from "../api/rehype-glitch-echo";
+import rehypeGlitchEcho from '../api/rehype-glitch-echo';
 
 interface Props {
   frontMatter: MdxFrontmatter;
@@ -43,11 +43,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   const frontMatter = MdxFrontmatterSchema.parse(data);
 
-  const mdxSource = await serialize(content,
-      { scope: frontMatter,
-        mdxOptions: {
-      rehypePlugins:[rehypeGlitchEcho],}
-      });
+  const mdxSource = await serialize(content, {
+    scope: frontMatter,
+    mdxOptions: {
+      rehypePlugins: [rehypeGlitchEcho],
+    },
+  });
 
   return {
     props: { frontMatter, mdxSource },

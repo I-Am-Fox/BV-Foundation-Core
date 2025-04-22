@@ -10,7 +10,7 @@ export const MdxFrontmatterSchema = z.object({
     'DELTA CLASS',
     'THETA CLASS',
     'UNCLASSIFIED',
-      'UNRESOLVED',
+    'UNRESOLVED',
   ]),
   asset: z.string().optional(),
   date: z.string().optional(),

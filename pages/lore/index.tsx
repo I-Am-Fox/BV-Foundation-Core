@@ -8,6 +8,7 @@ import ContributeModal from '../../components/ContributeModal';
 import AdminPanel from '../../components/AdminPanel';
 import Directive from '../../components/Directive';
 import ContainmentMonitor from '../../components/ContainmentMonitor';
+import GlitchLabel from '../../components/GlitchLabel';
 
 type Entry = {
   slug: string;
@@ -146,7 +147,7 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
                 classification === 'FIELD AGENTS'
                   ? 'bg-black text-left border border-red-500 text-red-300 hover:bg-red-900 transition-all duration-500"' 
                     : classification === 'UNRESOLVED'
-                  ? 'bg-black border border-fuchsia-500 text-fuchsia-300 hover:bg-fuchsia-900 animate-pulse duration-500"'
+                  ? 'bg-black border border-fuchsia-500 text-fuchsia-300 hover:bg-fuchsia-900 glitch-text'
                   : 'bg-black text-left border border-green-500 text-green-300 hover:bg-green-900 transition-all duration-500"'
               }`}
             >

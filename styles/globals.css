@@ -126,3 +126,30 @@ body {
   pointer-events: none;
   z-index: 9999;
 }
+
+@keyframes softGlitch {
+  0%, 100% {
+    transform: translateX(0);
+    text-shadow: 0.05em 0 0 #f0f, -0.05em 0 0 #0ff;
+  }
+  25% {
+    transform: translateX(0.5px);
+    text-shadow: 0.1em 0 0 #f0f, -0.1em 0 0 #0ff;
+  }
+  50% {
+    transform: translateX(-0.5px);
+    text-shadow: -0.1em 0 0 #f0f, 0.1em 0 0 #0ff;
+  }
+  75% {
+    transform: translateX(0.25px);
+    text-shadow: 0.07em 0 0 #f0f, -0.07em 0 0 #0ff;
+  }
+}
+
+.glitch-text {
+  animation: softGlitch 1.8s infinite ease-in-out;
+  position: relative;
+  display: inline-block;
+}
+
+

@@ -1,0 +1,37 @@
+
+name: Promote Approved Submissions
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          path: main
+
+      - name: Checkout submissions
+        uses: actions/checkout@v3
+        with:
+          ref: submissions
+          path: submissions
+
+      - name: Copy approved files to main
+        run: |
+          mkdir -p main/content/lore
+          cp -vn submissions/content/submissions/*.mdx main/content/lore/ || true
+
+      - name: Commit and push to main
+        run: |
+          cd main
+          git config user.name "Protocol-C"
+          git config user.email "bot@blackveil.dev"
+          git add content/lore
+          git diff --quiet && git diff --staged --quiet || git commit -m "Midnight Promotion: Approved entries committed by Protocol-C"
+          git push origin main

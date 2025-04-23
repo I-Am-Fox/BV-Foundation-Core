@@ -8,7 +8,6 @@ import ContributeModal from '../../components/ContributeModal';
 import AdminPanel from '../../components/AdminPanel';
 import Directive from '../../components/Directive';
 import ContainmentMonitor from '../../components/ContainmentMonitor';
-import GlitchLabel from '../../components/GlitchLabel';
 
 type Entry = {
   slug: string;
@@ -118,12 +117,12 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
 
           {/* wrap them in a flex container */}
           <div className="mt-4 flex items-center">
-            <button
-              onClick={() => setShowContribute(true)}
+            <Link
+              href="/lore/submission"
               className="text-xs underline text-red-200 hover:text-red-100 transition"
             >
               Begin Submission →
-            </button>
+            </Link>
 
             {/* push this to the far right */}
             <Link

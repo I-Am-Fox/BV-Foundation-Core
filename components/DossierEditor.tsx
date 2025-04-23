@@ -58,7 +58,7 @@ export default function DossierEditor() {
       `### Containment Procedures\n${containment}\n\n` +
       `### Incident Logs\n${logs}\n\n` +
       `### Analysis\n${analysis}\n\n` +
-      `## Tags - LEAVE EMPTY\n<DossierTagList tags={[]} />\n`;
+      `\n<DossierTagList tags={[]} />\n`;
 
     // Filename slug
     const slug = title

@@ -47,8 +47,8 @@ export default function DossierEditor() {
       `asset: "${asset}"\n` +
       `date: '${date}'\n` +
       `---\n\n` +
-      `import HeaderSection from '@/components/LoreElements/HeaderSection'\n` +
-      `import DossierTagList from '@/components/LoreElements/DossierTagList'\n\n` +
+      `import HeaderSection from '/components/LoreElements/HeaderSection'\n` +
+      `import DossierTagList from '/components/LoreElements/DossierTagList'\n\n` +
       `<HeaderSection date="${date}" objectClass="${classLabel}" asset="${asset}" />\n\n` +
       `### [${codename}] DOSSIER\n\n` +
       `**Classification:** ${classLabel}  \n` +

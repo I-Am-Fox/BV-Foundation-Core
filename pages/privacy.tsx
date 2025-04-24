@@ -11,48 +11,88 @@ export default function PrivacyPage() {
 
             <div className="space-y-4">
                 <p className="text-sm opacity-80">
-                    This website is committed to protecting your privacy and ensuring compliance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018. This privacy policy outlines how we collect, use, store, and protect your data.
+                    This privacy notice tells you what to expect us to do with your personal information.
                 </p>
 
-                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Information We Collect</h2>
-                <ul className="text-sm opacity-80 list-disc list-inside">
-                    <li>Email address and password (for account creation and login)</li>
-                    <li>Session metadata (access timestamps, IP address, browser version, etc.)</li>
-                    <li>Interaction data (pages visited, forms submitted)</li>
-                    <li>Submitted content (e.g. Markdown files, titles, metadata)</li>
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Contact Details</h2>
+                <p className="text-sm opacity-80">
+                    Email: <span className="text-green-200">blackveilfoundation@proton.me</span>
+                </p>
+
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">What Information We Collect, Use, and Why</h2>
+                <p className="text-sm opacity-80">
+                    We collect or use the following information for the operation of customer accounts and guarantees:
+                </p>
+                <ul className="text-sm list-disc list-inside">
+                    <li>Account information, including registration details</li>
+                    <li>Information used for security purposes</li>
+                </ul>
+                <p className="text-sm opacity-80">
+                    We collect or use the following information to comply with legal requirements:
+                </p>
+                <ul className="text-sm list-disc list-inside">
+                    <li>Contact information</li>
+                </ul>
+                <p className="text-sm opacity-80">
+                    We collect or use the following personal information for dealing with queries, complaints or claims:
+                </p>
+                <ul className="text-sm list-disc list-inside">
+                    <li>Names and contact details</li>
+                    <li>Account information</li>
                 </ul>
 
-                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">How We Use Your Data</h2>
-                <ul className="text-sm opacity-80 list-disc list-inside">
-                    <li>To authenticate users and provide access to secure sections of the site</li>
-                    <li>To review, approve, and manage submitted content</li>
-                    <li>To improve user experience and site performance</li>
-                    <li>To comply with legal obligations</li>
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Lawful Bases and Data Protection Rights</h2>
+                <p className="text-sm opacity-80">
+                    Under UK data protection law, we must have a "lawful basis" for collecting and using your personal information. Which lawful basis we rely on may affect your data protection rights:
+                </p>
+                <ul className="text-sm list-disc list-inside">
+                    <li><strong>Right of access:</strong> Request copies of your personal information</li>
+                    <li><strong>Right to rectification:</strong> Correct or complete inaccurate or incomplete data</li>
+                    <li><strong>Right to erasure:</strong> Ask for deletion of your personal data</li>
+                    <li><strong>Right to restriction:</strong> Ask us to limit how we use your information</li>
+                    <li><strong>Right to object:</strong> Object to data processing</li>
+                    <li><strong>Right to data portability:</strong> Ask us to transfer your data elsewhere</li>
+                    <li><strong>Right to withdraw consent:</strong> You may withdraw consent at any time</li>
+                </ul>
+                <p className="text-sm opacity-80">
+                    We must respond to your request within one month. To make a request, please use the contact details at the top of this notice.
+                </p>
+
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Our Lawful Bases for Processing</h2>
+                <p className="text-sm opacity-80">We rely on the following lawful bases:</p>
+                <ul className="text-sm list-disc list-inside">
+                    <li><strong>Consent:</strong> You have given clear permission. You may withdraw consent at any time.</li>
+                    <li><strong>Legal obligation:</strong> We must process data to comply with the law.</li>
                 </ul>
 
-                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Your Rights Under UK GDPR</h2>
-                <ul className="text-sm opacity-80 list-disc list-inside">
-                    <li>You have the right to access the personal data we hold about you</li>
-                    <li>You have the right to request correction or deletion of your data</li>
-                    <li>You have the right to withdraw consent at any time</li>
-                    <li>You have the right to file a complaint with the Information Commissioner's Office (ICO)</li>
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Where We Get Personal Information From</h2>
+                <p className="text-sm opacity-80">We collect data directly from you.</p>
+
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">How Long We Keep Information</h2>
+                <p className="text-sm opacity-80">We retain data only as long as necessary. Please contact us for more detail about specific retention timelines.</p>
+
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Who We Share Information With</h2>
+                <ul className="text-sm list-disc list-inside">
+                    <li><strong>Netlify:</strong> Hosting platform for domain and site content</li>
+                    <li><strong>Supabase:</strong> Authentication, database, and submission system services</li>
                 </ul>
 
+                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">How to Complain</h2>
                 <p className="text-sm opacity-80">
-                    To exercise your rights or request deletion of your data or account, please contact us at:
-                    <br />
-                    <span className="text-green-200">privacy@blackveil.foundation</span>
+                    If you have concerns about how your data is used, contact us using the email above. If you're unsatisfied with our response, you can file a complaint with the Information Commissioner's Office (ICO):
+                </p>
+                <p className="text-sm opacity-80">
+                    Information Commissioner's Office<br />
+                    Wycliffe House<br />
+                    Water Lane<br />
+                    Wilmslow<br />
+                    Cheshire SK9 5AF<br />
+                    Helpline: 0303 123 1113<br />
+                    Website: <a href="https://www.ico.org.uk/make-a-complaint" className="underline">www.ico.org.uk/make-a-complaint</a>
                 </p>
 
-                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Data Storage and Security</h2>
-                <p className="text-sm opacity-80">
-                    Your account credentials are securely hashed and stored using Supabase authentication. We use encrypted connections and industry-standard best practices to protect all stored data.
-                </p>
-
-                <h2 className="text-xl text-green-300 font-semibold mt-6 mb-2">Cookies and Tracking</h2>
-                <p className="text-sm opacity-80">
-                    This website may use cookies or session storage for authentication, functionality, and user preferences. We do not use tracking cookies or third-party analytics without user consent.
-                </p>
+                <h2 className="text-sm mt-6">Last updated</h2>
+                <p className="text-sm opacity-80">April 2024</p>
             </div>
 
             <div className="mt-10">

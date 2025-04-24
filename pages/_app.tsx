@@ -19,7 +19,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
       {!isLandingPage && !router.pathname.startsWith('/classified') && <TopNav />}
 
-
       <AnimatePresence mode="wait">
         <motion.div
           key={router.asPath}

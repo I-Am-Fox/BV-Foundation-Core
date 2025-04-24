@@ -31,6 +31,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const isValid = validatePassword(password, hashedAdminPassword);
 
+
     if (isValid) {
       return res.status(200).json({ success: true, message: 'Authentication successful' });
     } else {

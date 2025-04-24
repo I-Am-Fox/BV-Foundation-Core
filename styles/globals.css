@@ -152,4 +152,18 @@ body {
   display: inline-block;
 }
 
+@keyframes flickerBG {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.2;
+  }
+}
+
+.flicker {
+  animation: flickerBG 2.8s infinite;
+}
+
+
 

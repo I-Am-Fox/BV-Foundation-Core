@@ -17,7 +17,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Black Veil Foundation</title>
       </Head>
 
-      {!isLandingPage && <TopNav />}
+      {!isLandingPage && !router.pathname.startsWith('/classified') && <TopNav />}
+
 
       <AnimatePresence mode="wait">
         <motion.div

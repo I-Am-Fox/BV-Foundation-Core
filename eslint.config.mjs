@@ -12,6 +12,7 @@ export default [
       '**/*.config.cjs',
       '**/*.config.mjs',
       '**/*.config.ts',
+        '**/content/**',
     ],
   },
   {

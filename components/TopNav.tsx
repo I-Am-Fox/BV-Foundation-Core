@@ -16,6 +16,9 @@ export default function TopNav() {
         <li>
           <Link href="/timeline">Timeline</Link>
         </li>
+        <li>
+          <Link href="/signup">Request Access</Link>
+        </li>
       </ul>
     </nav>
   );

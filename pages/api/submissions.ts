@@ -1,33 +1,35 @@
+// pages/api/submissions.ts
+import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const submissionsDir = path.join(process.cwd(), 'content', 'submissions');
-
   try {
+    const submissionsDir = path.join(process.cwd(), 'content/submissions');
+
     if (!fs.existsSync(submissionsDir)) {
-      return res.status(200).json({ files: [] });
+      return res.status(200).json([]);
     }
 
     const files = fs.readdirSync(submissionsDir).filter((file) => file.endsWith('.mdx'));
 
-    const parsed = files.map((filename) => {
-      const fullPath = path.join(submissionsDir, filename);
-      const rawContent = fs.readFileSync(fullPath, 'utf8');
-      const { data } = matter(rawContent);
+    const submissions = files.map((filename) => {
+      const filePath = path.join(submissionsDir, filename);
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const { data: frontMatter } = matter(fileContent);
 
       return {
         filename,
-        title: data.title ?? '[Untitled]',
-        classification: data.classification ?? 'UNKNOWN',
-        asset: data.asset ?? 'Unknown Asset',
+        title: frontMatter.title || 'Untitled',
+        classification: frontMatter.classification || 'Unknown',
+        asset: frontMatter.asset || 'Unknown Asset',
       };
     });
 
-    res.status(200).json({ files: parsed });
-  } catch (err) {
-    res.status(500).json({ error: 'Unable to load submissions.' });
+    return res.status(200).json(submissions);
+  } catch (error) {
+    console.error('Error loading submissions:', error);
+    return res.status(500).json({ error: 'Failed to load submissions.' });
   }
 }

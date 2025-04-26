@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { GetStaticProps } from 'next';
 import ContributeModal from '../../components/ContributeModal';
-import AdminPanel from '../../components/AdminPanel';
 import Directive from '../../components/Directive';
 import ContainmentMonitor from '../../components/ContainmentMonitor';
 
@@ -86,10 +85,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
 
       <>
         <Directive />
-      </>
-
-      <>
-        <AdminPanel />
       </>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">

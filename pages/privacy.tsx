@@ -29,6 +29,8 @@ export default function PrivacyPage() {
         <ul className="text-sm list-disc list-inside">
           <li>Account information, including registration details</li>
           <li>Information used for security purposes</li>
+          <li>IP addresses</li>
+          <li>Session metadata (e.g., device, browser information)</li>
         </ul>
         <p className="text-sm opacity-80">
           We collect or use the following information to comply with legal requirements:

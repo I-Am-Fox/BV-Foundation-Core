@@ -24,20 +24,20 @@ export default function AdminPanel() {
 
   if (loading) {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-black text-green-300 font-mono">
-          Checking admin access...
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-black text-green-300 font-mono">
+        Checking admin access...
+      </div>
     );
   }
 
   return (
-      <div className="bg-black text-green-300 font-mono min-h-screen p-8">
-        <h1 className="text-3xl font-bold mb-6 text-green-400">
-          Welcome, {user?.user_metadata?.display_name || user?.email}
-        </h1>
-        <p className="mb-6">You have administrative privileges.</p>
+    <div className="bg-black text-green-300 font-mono min-h-screen p-8">
+      <h1 className="text-3xl font-bold mb-6 text-green-400">
+        Welcome, {user?.user_metadata?.display_name || user?.email}
+      </h1>
+      <p className="mb-6">You have administrative privileges.</p>
 
-        <p className="text-sm opacity-80">(Submissions panel coming next!)</p>
-      </div>
+      <p className="text-sm opacity-80">(Submissions panel coming next!)</p>
+    </div>
   );
 }

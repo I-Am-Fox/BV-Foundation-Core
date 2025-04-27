@@ -1,11 +1,10 @@
-
 const withMDX = require('@next/mdx')({
-  extension: /\.mdx?$/
-})
+  extension: /\.mdx?$/,
+});
 
 module.exports = withMDX({
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-})
+});
 
 module.exports = {
   webpack: (config, { isServer }) => {
@@ -23,4 +22,3 @@ module.exports = {
     return config;
   },
 };
-

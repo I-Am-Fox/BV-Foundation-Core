@@ -21,6 +21,7 @@ npm run dev
 BLACK VEIL ARCHIVE is an encrypted repository of classified intel, asset dossiers, and incident reports. Engineered using **Next.js**, **MDX**, and **Netlify**, it emulates a secured intranet for operatives and analysts.
 
 Key functions include:
+
 - 🗂️ Live-folder rendering of asset classifications
 - 🔐 Login-console simulation before access
 - 📄 Structured MDX reports with embedded component support
@@ -43,12 +44,14 @@ tags: [containment, octane, operative]
 ```
 
 File naming convention:
+
 ```
 CLASS_asset-name.mdx
 Example: OCTANE_cv-07-dossier.mdx
 ```
 
 MDX components allowed:
+
 - `<HeaderSection />`
 - `<DossierTagList tags={['field', 'containment']} />`
 - `<WarningBox />`

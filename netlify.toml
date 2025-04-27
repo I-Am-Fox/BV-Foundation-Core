@@ -6,3 +6,6 @@ NODE_VERSION = "18"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[build.ignore]
+path = "supabase/functions/**"

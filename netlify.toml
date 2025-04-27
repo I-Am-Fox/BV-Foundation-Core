@@ -2,6 +2,7 @@
   command = "npm run build"
   publish = ".next"
   environment = { NODE_VERSION = "18" }
+  ignore = "git diff --quiet HEAD^ HEAD -- ':!supabase/functions/**' || exit 1"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

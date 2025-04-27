@@ -1,11 +1,10 @@
 [build]
-command = "npm run build"
+  command = "npm run build"
+  publish = ".next"
+  environment = { NODE_VERSION = "18" }
 
-[build.environment]
-NODE_VERSION = "18"
+[plugins]
+  package = "@netlify/plugin-nextjs"
 
-[[plugins]]
-package = "@netlify/plugin-nextjs"
-
-[build.ignore]
-path = "supabase/functions/**"
+[functions]
+  directory = "netlify/functions"

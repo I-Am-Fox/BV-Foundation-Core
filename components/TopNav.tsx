@@ -47,7 +47,7 @@ export default function TopNav() {
               <>
                 {user.app_metadata?.role === 'admin' && (
                   <li>
-                    <Link href="components/AdminPanel.tsx">Admin Panel</Link>
+                    <Link href="/admin-panel">Admin Panel</Link>
                   </li>
                 )}
                 <li>

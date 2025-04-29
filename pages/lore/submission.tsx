@@ -4,7 +4,14 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import DossierEditor from '../../components/DossierEditor';
 
 export default function SubmitPage() {
-  return <DossierEditor />;
+  return (
+    <div className="flex justify-center px-4 py-8">
+      {/* constrain width and center */}
+      <div className="w-full max-w-3xl">
+        <DossierEditor />
+      </div>
+    </div>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {

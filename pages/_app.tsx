@@ -1,30 +1,32 @@
+// pages/_app.tsx
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import TopNav from '../components/TopNav';
 import Footer from '../components/Footer';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { supabaseclient } from '../lib/supabaseclient'; // ✅ import your supabase client
-import axios from 'axios'; // ✅ import axios for easier post handling
+import axios from 'axios';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps & { pageProps: { initialSession: any } }) {
   const router = useRouter();
   const isLandingPage = router.pathname === '/';
+  const [supabaseClient] = useState(() => createPagesBrowserClient());
 
   useEffect(() => {
-    const { data: authListener } = supabaseclient.auth.onAuthStateChange(async (event, session) => {
+    const { data: listener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
       if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
         try {
           await axios.post(
             'https://ecjkdjalxokhpcarjvzb.supabase.co/functions/v1/log-ip-address',
             {},
-            {
-              headers: {
-                Authorization: `Bearer ${session.access_token}`,
-              },
-            }
+            { headers: { Authorization: `Bearer ${session.access_token}` } }
           );
           console.log('IP address logged successfully.');
         } catch (error) {
@@ -32,20 +34,22 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       }
     });
-
     return () => {
-      authListener?.subscription.unsubscribe();
+      listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabaseClient]);
 
   return (
-    <>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
       <Head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
         <title>Black Veil Foundation</title>
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {!isLandingPage && !router.pathname.startsWith('/classified') && <TopNav />}
+      {!isLandingPage && <TopNav />}
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -78,6 +82,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </AnimatePresence>
 
       {!isLandingPage && <Footer />}
-    </>
+    </SessionContextProvider>
   );
 }

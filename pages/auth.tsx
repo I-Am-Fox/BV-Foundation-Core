@@ -1,9 +1,11 @@
+// pages/auth.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { supabaseclient } from '../lib/supabaseclient';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 export default function AuthPage() {
   const router = useRouter();
+  const supabase = useSupabaseClient();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,14 +24,14 @@ export default function AuthPage() {
         return;
       }
 
-      const { data, error } = await supabaseclient.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { display_name: displayName } },
       });
 
-      if (error) {
-        setError(error.message);
+      if (signUpError) {
+        setError(signUpError.message);
       } else {
         if (data.session?.access_token) {
           await logIPAddress(data.session.access_token);
@@ -37,15 +39,18 @@ export default function AuthPage() {
         setMessage('Check your inbox to confirm your email before logging in.');
       }
     } else {
-      const { data, error } = await supabaseclient.auth.signInWithPassword({ email, password });
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (error) {
-        setError(error.message);
+      if (signInError) {
+        setError(signInError.message);
       } else {
         if (data.session?.access_token) {
           await logIPAddress(data.session.access_token);
         }
-        router.push('/');
+        router.push('/lore/submission');
       }
     }
   };

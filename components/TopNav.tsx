@@ -1,28 +1,14 @@
 // components/TopNav.tsx
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabaseclient } from '../lib/supabaseclient';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 
 export default function TopNav() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabaseclient.auth.getUser();
-      if (data?.user) {
-        setUser(data.user);
-      }
-      setLoading(false);
-    };
-
-    fetchUser();
-  }, []);
+  const session = useSession();
+  const supabase = useSupabaseClient();
 
   const handleLogout = async () => {
-    await supabaseclient.auth.signOut();
-    setUser(null);
-    window.location.href = '/'; // Force refresh after logout
+    await supabase.auth.signOut();
+    window.location.href = '/auth';
   };
 
   return (
@@ -41,35 +27,31 @@ export default function TopNav() {
           <Link href="/timeline">Timeline</Link>
         </li>
 
-        {!loading && (
+        {session ? (
           <>
-            {user ? (
-              <>
-                {user.app_metadata?.role === 'admin' && (
-                  <li>
-                    <Link href="/admin-panel">Admin Panel</Link>
-                  </li>
-                )}
-                <li>
-                  <button onClick={handleLogout} className="hover:text-green-300 transition">
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link href="/auth" className="hover:text-green-300 transition">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth" className="hover:text-green-300 transition">
-                    Signup
-                  </Link>
-                </li>
-              </>
+            {session.user.user_metadata?.role === 'admin' && (
+              <li>
+                <Link href="/admin-panel">Admin Panel</Link>
+              </li>
             )}
+            <li>
+              <button onClick={handleLogout} className="hover:text-green-300 transition">
+                Logout
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link href="/auth" className="hover:text-green-300 transition">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link href="/auth?mode=signup" className="hover:text-green-300 transition">
+                Signup
+              </Link>
+            </li>
           </>
         )}
       </ul>

@@ -10,37 +10,37 @@ export default function PrivacyPage() {
       </h1>
       <div className="mt-10">
         <button
-            onClick={() => setShowOverlay(true)}
-            className="text-yellow-300 border border-yellow-500 px-4 py-2 text-xs hover:bg-yellow-900/10 transition-all"
+          onClick={() => setShowOverlay(true)}
+          className="text-yellow-300 border border-yellow-500 px-4 py-2 text-xs hover:bg-yellow-900/10 transition-all"
         >
           View Data Collection Disclosure
         </button>
       </div>
 
       {showOverlay && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
-            <div className="border border-yellow-500 bg-yellow-900/20 text-yellow-300 p-6 max-w-lg shadow-lg space-y-4">
-              <h2 className="text-xl font-bold border-b border-yellow-500 pb-2">
-                ⚠️ DATA COLLECTION NOTICE
-              </h2>
-              <p className="text-sm">
-                This site collects anonymized usage metadata to ensure system security and
-                performance. Data is never sold or shared with third parties, and is only retained for
-                as long as necessary.
-              </p>
-              <p className="text-sm">
-                Continued use of this website constitutes consent to these practices under the UK
-                GDPR.
-              </p>
-              <button
-                  onClick={() => setShowOverlay(false)}
-                  className="mt-4 bg-yellow-500 text-black font-bold px-4 py-1 text-xs hover:bg-yellow-400 transition-all"
-              >
-                Close
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+          <div className="border border-yellow-500 bg-yellow-900/20 text-yellow-300 p-6 max-w-lg shadow-lg space-y-4">
+            <h2 className="text-xl font-bold border-b border-yellow-500 pb-2">
+              ⚠️ DATA COLLECTION NOTICE
+            </h2>
+            <p className="text-sm">
+              This site collects anonymized usage metadata to ensure system security and
+              performance. Data is never sold or shared with third parties, and is only retained for
+              as long as necessary.
+            </p>
+            <p className="text-sm">
+              Continued use of this website constitutes consent to these practices under the UK
+              GDPR.
+            </p>
+            <button
+              onClick={() => setShowOverlay(false)}
+              className="mt-4 bg-yellow-500 text-black font-bold px-4 py-1 text-xs hover:bg-yellow-400 transition-all"
+            >
+              Close
+            </button>
           </div>
-        )}
+        </div>
+      )}
 
       <div className="space-y-4">
         <p className="text-sm opacity-80">

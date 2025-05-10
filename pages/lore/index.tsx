@@ -70,9 +70,11 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
   const classifications = [
     'FIELD AGENTS',
     'ALPHA CLASS',
+    'ANCHOR CLASS',
     'BETA CLASS',
     'DELTA CLASS',
     'OCTANE CLASS',
+    'REVENANT CLASS',
     'THETA CLASS',
     'UNRESOLVED',
   ].filter((c) => existing.has(c) || ['ALPHA CLASS', 'DELTA CLASS'].includes(c));

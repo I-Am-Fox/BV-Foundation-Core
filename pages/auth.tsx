@@ -60,76 +60,76 @@ export default function AuthPage() {
   };
 
   return (
-      <div className="flex items-center justify-center min-h-screen bg-black text-white font-mono">
-        <div className="p-6 border border-green-600 bg-green-900/10 rounded shadow-md w-full max-w-sm">
-          <h2 className="text-green-400 text-lg font-bold mb-4">
-            {mode === 'login' ? 'Black Veil Operator Login' : 'Request Black Veil Access'}
-          </h2>
+    <div className="flex items-center justify-center min-h-screen bg-black text-white font-mono">
+      <div className="p-6 border border-green-600 bg-green-900/10 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-green-400 text-lg font-bold mb-4">
+          {mode === 'login' ? 'Black Veil Operator Login' : 'Request Black Veil Access'}
+        </h2>
 
-          {mode === 'signup' && (
-              <input
-                  type="text"
-                  className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-                  placeholder="Display Name"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-              />
-          )}
-
+        {mode === 'signup' && (
           <input
-              type="email"
-              className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
+            placeholder="Display Name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
           />
+        )}
 
+        <input
+          type="email"
+          className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {mode === 'signup' && (
           <input
-              type="password"
-              className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
+        )}
 
-          {mode === 'signup' && (
-              <input
-                  type="password"
-                  className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-          )}
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2"
+        >
+          {mode === 'login' ? 'Access Network' : 'Request Access'}
+        </button>
 
-          <button
-              onClick={handleSubmit}
-              className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2"
-          >
-            {mode === 'login' ? 'Access Network' : 'Request Access'}
-          </button>
-
-          <div className="text-center text-xs text-green-300 mt-4">
-            {mode === 'login' ? (
-                <span>
+        <div className="text-center text-xs text-green-300 mt-4">
+          {mode === 'login' ? (
+            <span>
               Need an account?{' '}
-                  <button className="underline" onClick={() => setMode('signup')}>
+              <button className="underline" onClick={() => setMode('signup')}>
                 Sign Up
               </button>
             </span>
-            ) : (
-                <span>
+          ) : (
+            <span>
               Already have an account?{' '}
-                  <button className="underline" onClick={() => setMode('login')}>
+              <button className="underline" onClick={() => setMode('login')}>
                 Log In
               </button>
             </span>
-            )}
-          </div>
-
-          {message && <p className="mt-3 text-sm text-green-300">{message}</p>}
-          {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
+          )}
         </div>
+
+        {message && <p className="mt-3 text-sm text-green-300">{message}</p>}
+        {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
       </div>
+    </div>
   );
 }

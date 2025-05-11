@@ -16,7 +16,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const ipAddress = Array.isArray(ipRaw) ? ipRaw[0] : ipRaw;
   const userAgent = req.headers['user-agent'] || 'unknown';
 
-  const { error } = await supabase.from('directive_logs').insert([
+  console.log('Logging attempt from IP:', ipAddress);
+
+  const { data, error } = await supabase.from('directive_logs').insert([
     {
       ip_address: ipAddress,
       user_agent: userAgent,
@@ -24,9 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   ]);
 
   if (error) {
-    console.error('Failed to log IP address:', error);
+    console.error('Insert failed:', error);
     return res.status(500).json({ error: 'Failed to log access' });
   }
+
+  console.log('Insert success:', data);
 
   return res.status(200).json({ success: true });
 }

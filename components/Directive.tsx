@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Directive() {
   const [isVisible, setIsVisible] = useState(false);
+
+  // Log page access to API route
+  useEffect(() => {
+    fetch('/api/log-directive');
+  }, []);
 
   return (
     <>

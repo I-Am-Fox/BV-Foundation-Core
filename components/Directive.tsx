@@ -5,7 +5,9 @@ export default function Directive() {
 
   // Log page access to API route
   useEffect(() => {
-    fetch('/api/log-directive');
+    fetch('/api/log-directive').catch((err) =>
+      console.error('Failed to log directive access:', err)
+    );
   }, []);
 
   return (

@@ -33,19 +33,47 @@ export default function AuthPage() {
       if (signUpError) {
         setError(signUpError.message);
       } else {
-        await logIPAddress(); // Call log after sign up
+        const userId = data.user?.id;
+        if (userId) {
+          await supabase.from('profiles').insert([{ id: userId, username: displayName }]);
+        }
+
+        await logIPAddress();
         setMessage('Check your inbox to confirm your email before logging in.');
       }
     } else {
+      let loginEmail = email;
+
+      if (!email.includes('@')) {
+        try {
+          const res = await fetch(`/api/resolve-email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: email }),
+          });
+
+          const result = await res.json();
+          if (!res.ok || !result.email) {
+            setError(result.error || 'Username not found.');
+            return;
+          }
+
+          loginEmail = result.email;
+        } catch (err) {
+          setError('Failed to resolve username.');
+          return;
+        }
+      }
+
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: loginEmail,
         password,
       });
 
       if (signInError) {
         setError(signInError.message);
       } else {
-        await logIPAddress(); // Call log after login
+        await logIPAddress();
         router.push('/lore/submission');
       }
     }
@@ -77,9 +105,9 @@ export default function AuthPage() {
         )}
 
         <input
-          type="email"
+          type="text"
           className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-          placeholder="Email Address"
+          placeholder="Email or Username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

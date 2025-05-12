@@ -8,18 +8,16 @@ export default function Directive() {
     const lastLogged = localStorage.getItem('lastDirectiveLog');
     const now = Date.now();
 
-
     if (!lastLogged || now - parseInt(lastLogged) > 60 * 60 * 1000) {
       fetch('/api/log-directive')
-          .then(() => {
-            localStorage.setItem('lastDirectiveLog', now.toString());
-          })
-          .catch((err) => {
-            console.error('Failed to log directive access:', err);
-          });
+        .then(() => {
+          localStorage.setItem('lastDirectiveLog', now.toString());
+        })
+        .catch((err) => {
+          console.error('Failed to log directive access:', err);
+        });
     }
   }, []);
-
 
   return (
     <>

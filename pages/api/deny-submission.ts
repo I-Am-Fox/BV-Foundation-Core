@@ -22,13 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data: refData } = await octokit.git.getRef({
       owner: GH_OWNER,
       repo: GH_REPO,
-      ref: `heads/${GH_BRANCH}`
+      ref: `heads/${GH_BRANCH}`,
     });
 
     const { data: latestCommit } = await octokit.git.getCommit({
       owner: GH_OWNER,
       repo: GH_REPO,
-      commit_sha: refData.object.sha
+      commit_sha: refData.object.sha,
     });
 
     // Create new tree without the file
@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       owner: GH_OWNER,
       repo: GH_REPO,
       tree_sha: latestCommit.tree.sha,
-      recursive: 'true'
+      recursive: 'true',
     });
 
     const newTreeItems = baseTree.tree.filter((item: { path?: string }) => item.path !== path);
@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       owner: GH_OWNER,
       repo: GH_REPO,
       tree: newTreeItems as any[],
-      base_tree: latestCommit.tree.sha
+      base_tree: latestCommit.tree.sha,
     });
 
     const { data: newCommit } = await octokit.git.createCommit({
@@ -53,14 +53,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       repo: GH_REPO,
       message: `Deny: ${file}`,
       tree: newTree.sha,
-      parents: [latestCommit.sha]
+      parents: [latestCommit.sha],
     });
 
     await octokit.git.updateRef({
       owner: GH_OWNER,
       repo: GH_REPO,
       ref: `heads/${GH_BRANCH}`,
-      sha: newCommit.sha
+      sha: newCommit.sha,
     });
 
     res.status(200).json({ success: true });

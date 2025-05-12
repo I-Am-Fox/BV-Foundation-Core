@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       owner: GH_OWNER,
       repo: GH_REPO,
       path,
-      ref: SOURCE_BRANCH
+      ref: SOURCE_BRANCH,
     });
 
     if (!('content' in sourceContent)) {
@@ -37,13 +37,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data: mainRef } = await octokit.git.getRef({
       owner: GH_OWNER,
       repo: GH_REPO,
-      ref: `heads/${DEST_BRANCH}`
+      ref: `heads/${DEST_BRANCH}`,
     });
 
     const { data: mainCommit } = await octokit.git.getCommit({
       owner: GH_OWNER,
       repo: GH_REPO,
-      commit_sha: mainRef.object.sha
+      commit_sha: mainRef.object.sha,
     });
 
     // Create blob
@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       owner: GH_OWNER,
       repo: GH_REPO,
       content: decodedContent,
-      encoding: 'utf-8'
+      encoding: 'utf-8',
     });
 
     // Create tree
@@ -64,9 +64,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           path,
           mode: '100644',
           type: 'blob',
-          sha: blob.sha
-        }
-      ]
+          sha: blob.sha,
+        },
+      ],
     });
 
     // Commit to main branch
@@ -75,14 +75,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       repo: GH_REPO,
       message: `Approve: ${file}`,
       tree: tree.sha,
-      parents: [mainCommit.sha]
+      parents: [mainCommit.sha],
     });
 
     await octokit.git.updateRef({
       owner: GH_OWNER,
       repo: GH_REPO,
       ref: `heads/${DEST_BRANCH}`,
-      sha: commit.sha
+      sha: commit.sha,
     });
 
     res.status(200).json({ success: true });

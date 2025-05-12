@@ -93,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         repo: GH_REPO,
         title: `New Submission: ${filename}`,
         head: GH_BRANCH,
-        base: 'main',
+        base: 'submissions',
         body: `**File:** ${filename}\n\n**Content:**\n\`\`\`\n${fileContent}\n\`\`\``,
       });
 

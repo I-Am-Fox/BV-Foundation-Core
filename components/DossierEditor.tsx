@@ -1,11 +1,13 @@
 // components/LoreElements/DossierEditor.tsx
 import React, { useState } from 'react';
+import { useSession } from '@supabase/auth-helpers-react';
 
 // Allowed classification values
 type ClassType = 'ALPHA' | 'BETA' | 'DELTA' | 'THETA' | 'OCTANE';
 const ALLOWED_CLASSES: ClassType[] = ['ALPHA', 'BETA', 'DELTA', 'THETA', 'OCTANE'];
 
 export default function DossierEditor() {
+  const session = useSession();
   const [title, setTitle] = useState('');
   const [classification, setClassification] = useState<ClassType | ''>('');
   const [asset, setAsset] = useState('');
@@ -24,7 +26,6 @@ export default function DossierEditor() {
     setLoading(true);
     setError(null);
 
-    // Normalize & validate classification
     const cls = (classification as string).toUpperCase() as ClassType;
     if (!ALLOWED_CLASSES.includes(cls)) {
       setError('Invalid classification. Use one of: ' + ALLOWED_CLASSES.join(', '));
@@ -32,14 +33,12 @@ export default function DossierEditor() {
       return;
     }
 
-    // Append the " CLASS" suffix
     const classLabel = `${cls} CLASS`;
-
-    // Extract codename from asset
     const codenameMatch = asset.match(/['"“”]([^'"“”]+)['"“”]/);
     const codename = codenameMatch ? codenameMatch[1] : asset.split(' ')[1] || 'Codename';
+    const username =
+      session?.user?.user_metadata?.display_name || session?.user?.email || 'Unknown';
 
-    // Build the MDX
     const mdx =
       `---\n` +
       `title: "${title}"\n` +
@@ -58,9 +57,9 @@ export default function DossierEditor() {
       `### Containment Procedures\n${containment}\n\n` +
       `### Incident Logs\n${logs}\n\n` +
       `### Analysis\n${analysis}\n\n` +
-      `\n<DossierTagList tags={[]} />\n`;
+      `---\n_Submitted by: ${username}_\n\n` +
+      `<DossierTagList tags={[]} />\n`;
 
-    // Filename slug
     const slug = title
       .trim()
       .toLowerCase()
@@ -69,7 +68,6 @@ export default function DossierEditor() {
       .slice(0, 50);
     const filename = `${cls}_${slug || 'dossier'}.mdx`;
 
-    // Prepare form data
     const blob = new Blob([mdx], { type: 'text/markdown' });
     const formData = new FormData();
     formData.append('file', blob, filename);
@@ -198,15 +196,7 @@ export default function DossierEditor() {
         {loading ? 'Submitting…' : 'Submit'}
       </button>
       {error && <p className="text-red-600">Error: {error}</p>}
-      {prUrl && (
-        <p className="text-green-600">
-          Submission successful! View PR{' '}
-          <a href={prUrl} target="_blank" rel="noopener noreferrer" className="underline">
-            here
-          </a>
-          .
-        </p>
-      )}
+      {prUrl && <p className="text-green-600">Submission successful. Awaiting approval.</p>}
     </form>
   );
 }

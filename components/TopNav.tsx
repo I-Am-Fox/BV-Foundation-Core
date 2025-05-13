@@ -94,7 +94,7 @@ export default function TopNav() {
                 {dropdownOpen && (
                   <ul className="absolute right-0 mt-2 w-44 bg-black border border-green-600 text-green-300 shadow-lg font-mono text-xs z-50">
                     <li>
-                      <Link href="/profile" className="block px-4 py-2 hover:bg-green-800">
+                      <Link href="/pages/profile-[username]" className="block px-4 py-2 hover:bg-green-800">
                         Profile Settings
                       </Link>
                     </li>
@@ -155,7 +155,7 @@ export default function TopNav() {
             {session ? (
               <>
                 <span className="block py-1">Welcome, {username || 'User'}</span>
-                <Link href="/profile" className="block py-1 hover:text-green-200">
+                <Link href="/pages/profile-[username]" className="block py-1 hover:text-green-200">
                   Profile Settings
                 </Link>
                 {session.user.email === ADMIN_EMAIL && (

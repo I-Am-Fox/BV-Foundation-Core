@@ -99,170 +99,179 @@ export default function DossierEditor() {
   };
 
   return (
-    <>
-      <form className="space-y-6 max-w-3xl mx-auto p-4">
-        <h2 className="text-xl text-green-300 font-bold">Dossier Submission</h2>
-        <button
-          type="button"
-          onClick={handlePreview}
-          className="mb-4 px-4 py-1 bg-green-700 text-black rounded hover:bg-green-600"
-        >
-          Toggle Preview
-        </button>
-
-        <div>
-          <label className="block font-semibold mb-1">Submission Type</label>
-          <select
-            value={mode}
-            onChange={(e) => setMode(e.target.value as 'new' | 'existing')}
-            className="w-full p-2 bg-black border border-green-700 text-white rounded"
+    <div className="flex flex-col md:flex-row transition-all duration-300">
+      <div
+        className={`w-full ${previewOpen ? 'md:w-1/2' : 'md:w-full'} transition-all duration-300`}
+      >
+        <form className="space-y-6 max-w-3xl mx-auto p-4">
+          <h2 className="text-xl text-green-300 font-bold">Dossier Submission</h2>
+          <button
+            type="button"
+            onClick={handlePreview}
+            className="mb-4 px-4 py-1 bg-green-700 text-black rounded hover:bg-green-600"
           >
-            <option value="new">Create New Asset</option>
-            <option value="existing">Add to Existing Asset</option>
-          </select>
-        </div>
+            {previewOpen ? 'Hide Preview' : 'Toggle Preview'}
+          </button>
 
-        {(mode === 'existing' || mode === 'new') && (
           <div>
-            <label className="block font-medium">Entry Type</label>
+            <label className="block font-semibold mb-1">Submission Type</label>
             <select
-              value={entryType}
-              onChange={(e) => setEntryType(e.target.value as typeof entryType)}
-              className="w-full p-2 border rounded bg-gray-700"
+              value={mode}
+              onChange={(e) => setMode(e.target.value as 'new' | 'existing')}
+              className="w-full p-2 bg-black border border-green-700 text-white rounded"
             >
-              <option
-                value="dossier"
-                disabled={
-                  mode === 'existing' && knownAssets.find((a) => a.asset === asset)?.hasDossier
-                }
+              <option value="new">Create New Asset</option>
+              <option value="existing">Add to Existing Asset</option>
+            </select>
+          </div>
+
+          {(mode === 'existing' || mode === 'new') && (
+            <div>
+              <label className="block font-medium">Entry Type</label>
+              <select
+                value={entryType}
+                onChange={(e) => setEntryType(e.target.value as typeof entryType)}
+                className="w-full p-2 border rounded bg-gray-700"
               >
-                Dossier{' '}
-                {mode === 'existing' && knownAssets.find((a) => a.asset === asset)?.hasDossier
-                  ? '(Already exists)'
-                  : ''}
-              </option>
-              <option value="log">Log</option>
-              <option value="analysis">Analysis</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        )}
-
-        {mode === 'existing' && (
-          <div>
-            <label className="block font-medium">Select Existing Asset</label>
-            <select
-              onChange={(e) => {
-                const selected = knownAssets.find((a) => a.asset === e.target.value);
-                setAsset(selected?.asset || '');
-                setClassification((selected?.classification.split(' ')[0] as ClassType) || '');
-              }}
-              className="w-full p-2 border rounded bg-gray-700"
-            >
-              <option value="">Select an asset</option>
-              {knownAssets.map((entry) => (
-                <option key={entry.asset} value={entry.asset}>
-                  {entry.asset}
+                <option
+                  value="dossier"
+                  disabled={
+                    mode === 'existing' && knownAssets.find((a) => a.asset === asset)?.hasDossier
+                  }
+                >
+                  Dossier{' '}
+                  {mode === 'existing' && knownAssets.find((a) => a.asset === asset)?.hasDossier
+                    ? '(Already exists)'
+                    : ''}
                 </option>
-              ))}
-            </select>
-          </div>
-        )}
+                <option value="log">Log</option>
+                <option value="analysis">Analysis</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          )}
 
-        <div>
-          <label className="block font-medium">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded bg-gray-700"
+          {mode === 'existing' && (
+            <div>
+              <label className="block font-medium">Select Existing Asset</label>
+              <select
+                onChange={(e) => {
+                  const selected = knownAssets.find((a) => a.asset === e.target.value);
+                  setAsset(selected?.asset || '');
+                  setClassification((selected?.classification.split(' ')[0] as ClassType) || '');
+                }}
+                className="w-full p-2 border rounded bg-gray-700"
+              >
+                <option value="">Select an asset</option>
+                {knownAssets.map((entry) => (
+                  <option key={entry.asset} value={entry.asset}>
+                    {entry.asset}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label className="block font-medium">Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full p-2 border rounded bg-gray-700"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium">Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full p-2 border rounded bg-gray-700"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium">Summary</label>
+            <textarea
+              rows={3}
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              className="w-full p-2 border rounded bg-gray-700"
+            />
+          </div>
+
+          {(entryType === 'dossier' || entryType === 'other') && (
+            <div>
+              <label className="block font-medium">Description</label>
+              <textarea
+                rows={5}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full p-2 border rounded bg-gray-700"
+              />
+            </div>
+          )}
+
+          {entryType === 'dossier' && (
+            <div>
+              <label className="block font-medium">Containment Procedures</label>
+              <textarea
+                rows={4}
+                value={containment}
+                onChange={(e) => setContainment(e.target.value)}
+                className="w-full p-2 border rounded bg-gray-700"
+              />
+            </div>
+          )}
+
+          {(entryType === 'dossier' || entryType === 'log') && (
+            <div>
+              <label className="block font-medium">Incident Logs</label>
+              <textarea
+                rows={4}
+                value={logs}
+                onChange={(e) => setLogs(e.target.value)}
+                className="w-full p-2 border rounded bg-gray-700"
+              />
+            </div>
+          )}
+
+          {(entryType === 'dossier' || entryType === 'analysis') && (
+            <div>
+              <label className="block font-medium">Analysis</label>
+              <textarea
+                rows={4}
+                value={analysis}
+                onChange={(e) => setAnalysis(e.target.value)}
+                className="w-full p-2 border rounded bg-gray-700"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+          >
+            {loading ? 'Submitting…' : 'Submit'}
+          </button>
+
+          {error && <p className="text-red-600">Error: {error}</p>}
+          {successMessage && <p className="text-green-600">{successMessage}</p>}
+        </form>
+      </div>
+
+      {previewOpen && compiledMDX && (
+        <div className="w-full md:w-1/2 border-l border-green-700 transition-all duration-300">
+          <PreviewPanel
+            open={previewOpen}
+            mdxSource={compiledMDX}
+            onClose={() => setPreviewOpen(false)}
           />
         </div>
-
-        <div>
-          <label className="block font-medium">Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="w-full p-2 border rounded bg-gray-700"
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium">Summary</label>
-          <textarea
-            rows={3}
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            className="w-full p-2 border rounded bg-gray-700"
-          />
-        </div>
-
-        {(entryType === 'dossier' || entryType === 'other') && (
-          <div>
-            <label className="block font-medium">Description</label>
-            <textarea
-              rows={5}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-2 border rounded bg-gray-700"
-            />
-          </div>
-        )}
-
-        {entryType === 'dossier' && (
-          <div>
-            <label className="block font-medium">Containment Procedures</label>
-            <textarea
-              rows={4}
-              value={containment}
-              onChange={(e) => setContainment(e.target.value)}
-              className="w-full p-2 border rounded bg-gray-700"
-            />
-          </div>
-        )}
-
-        {(entryType === 'dossier' || entryType === 'log') && (
-          <div>
-            <label className="block font-medium">Incident Logs</label>
-            <textarea
-              rows={4}
-              value={logs}
-              onChange={(e) => setLogs(e.target.value)}
-              className="w-full p-2 border rounded bg-gray-700"
-            />
-          </div>
-        )}
-
-        {(entryType === 'dossier' || entryType === 'analysis') && (
-          <div>
-            <label className="block font-medium">Analysis</label>
-            <textarea
-              rows={4}
-              value={analysis}
-              onChange={(e) => setAnalysis(e.target.value)}
-              className="w-full p-2 border rounded bg-gray-700"
-            />
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-        >
-          {loading ? 'Submitting…' : 'Submit'}
-        </button>
-
-        {error && <p className="text-red-600">Error: {error}</p>}
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
-      </form>
-      <PreviewPanel
-        open={previewOpen}
-        mdxSource={compiledMDX}
-        onClose={() => setPreviewOpen(false)}
-      />
-    </>
+      )}
+    </div>
   );
 }

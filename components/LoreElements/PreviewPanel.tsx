@@ -13,7 +13,7 @@ export default function PreviewPanel({ mdxSource, open, onClose }: PreviewPanelP
   if (!open) return null;
 
   return (
-    <div className="fixed top-0 right-0 w-full md:w-1/2 h-full bg-black text-green-300 overflow-y-auto border-l border-green-700 z-50">
+    <div className="w-full h-full bg-black text-green-300 overflow-y-auto border-l border-green-700">
       <div className="flex justify-between items-center p-4 border-b border-green-700">
         <h2 className="text-lg font-bold">Live Preview</h2>
         <button

@@ -1,162 +1,131 @@
-// pages/auth.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
-export default function AuthPage() {
-  const router = useRouter();
+export default function Auth() {
   const supabase = useSupabaseClient();
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<'login' | 'signup'>('signup');
+
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
 
   const handleSubmit = async () => {
-    setError('');
-    setMessage('');
+    setError(null);
+    setLoading(true);
 
-    if (mode === 'signup') {
-      if (password !== confirmPassword) {
-        setError('Passwords do not match.');
-        return;
-      }
-
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { display_name: displayName } },
-      });
-
-      if (signUpError) {
-        setError(signUpError.message);
-      } else {
-        const userId = data.user?.id;
-        if (userId) {
-          await supabase.from('profiles').insert([{ id: userId, username: displayName }]);
-        }
-
-        await logIPAddress();
-        setMessage('Check your inbox to confirm your email before logging in.');
-      }
-    } else {
-      let loginEmail = email;
-
-      if (!email.includes('@')) {
-        try {
-          const res = await fetch(`/api/resolve-email`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: email }),
-          });
-
-          const result = await res.json();
-          if (!res.ok || !result.email) {
-            setError(result.error || 'Username not found.');
-            return;
-          }
-
-          loginEmail = result.email;
-        } catch (err) {
-          setError('Failed to resolve username.');
-          return;
-        }
-      }
-
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
-        password,
-      });
-
-      if (signInError) {
-        setError(signInError.message);
-      } else {
-        await logIPAddress();
-        router.push('/lore/submission');
-      }
+    if (mode === 'signup' && password !== confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
     }
-  };
 
-  const logIPAddress = async () => {
     try {
-      await fetch('/api/log-login');
-    } catch (err) {
-      console.error('Failed to log login IP address:', err);
+      const { error } =
+        mode === 'signup'
+          ? await supabase.auth.signUp({ email, password })
+          : await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) throw error;
+
+      router.push('/lore');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black text-white font-mono">
-      <div className="p-6 border border-green-600 bg-green-900/10 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-green-400 text-lg font-bold mb-4">
-          {mode === 'login' ? 'Black Veil Operator Login' : 'Request Black Veil Access'}
-        </h2>
-
-        {mode === 'signup' && (
-          <input
-            type="text"
-            className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-            placeholder="Display Name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
-        )}
+    <div className="flex justify-center items-center min-h-screen bg-black px-4">
+      <div className="w-full max-w-md bg-neutral-900 border border-green-800 rounded p-6">
+        <h1 className="text-2xl font-bold text-green-300 mb-4 text-center">
+          {mode === 'login' ? 'Welcome back' : 'Join the Archive'}
+        </h1>
 
         <input
-          type="text"
-          className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-          placeholder="Email or Username"
+          className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
+          type="email"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
+          className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
           type="password"
-          className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-          placeholder="Password"
+          placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
         {mode === 'signup' && (
-          <input
-            type="password"
-            className="w-full mb-3 p-2 bg-black border border-green-500 text-white placeholder-green-400"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <>
+            <input
+              className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+
+            <label className="flex items-center text-xs text-green-300 mb-1">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={() => setAgreedToTerms(!agreedToTerms)}
+                className="mr-2 accent-green-500"
+              />
+              I agree to the{' '}
+              <a href="/terms" className="underline ml-1" target="_blank" rel="noopener noreferrer">
+                Terms of Use
+              </a>
+            </label>
+
+            <label className="flex items-center text-xs text-green-300 mb-3">
+              <input
+                type="checkbox"
+                checked={agreedToPrivacy}
+                onChange={() => setAgreedToPrivacy(!agreedToPrivacy)}
+                className="mr-2 accent-green-500"
+              />
+              I agree to the{' '}
+              <a
+                href="/privacy"
+                className="underline ml-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </a>
+            </label>
+          </>
         )}
+
+        {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2"
+          disabled={loading || (mode === 'signup' && (!agreedToTerms || !agreedToPrivacy))}
+          className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2 disabled:opacity-50"
         >
-          {mode === 'login' ? 'Access Network' : 'Request Access'}
+          {loading ? 'Loading...' : mode === 'login' ? 'Access Network' : 'Request Access'}
         </button>
 
-        <div className="text-center text-xs text-green-300 mt-4">
-          {mode === 'login' ? (
-            <span>
-              Need an account?{' '}
-              <button className="underline" onClick={() => setMode('signup')}>
-                Sign Up
-              </button>
-            </span>
-          ) : (
-            <span>
-              Already have an account?{' '}
-              <button className="underline" onClick={() => setMode('login')}>
-                Log In
-              </button>
-            </span>
-          )}
-        </div>
-
-        {message && <p className="mt-3 text-sm text-green-300">{message}</p>}
-        {error && <p className="mt-3 text-sm text-red-300">{error}</p>}
+        <p className="text-center text-sm text-green-400 mt-4">
+          {mode === 'login' ? 'Need an account?' : 'Already have access?'}{' '}
+          <button
+            onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+            className="underline font-bold text-white"
+          >
+            {mode === 'login' ? 'Sign up' : 'Log in'}
+          </button>
+        </p>
       </div>
     </div>
   );

@@ -33,7 +33,7 @@ const Home: React.FC = () => {
         </p>
 
         <nav className="flex flex-wrap justify-center gap-3 px-4 py-2 border border-green-500 rounded shadow-lg bg-black/30 backdrop-blur">
-          {['Lore', 'Classified', 'Timeline'].map((link) => (
+          {['Lore', 'Classified', 'Locations'].map((link) => (
             <Link key={link} href={`/${link.toLowerCase()}`}>
               <span className="text-green-300 hover:text-green-400 text-xs md:text-sm uppercase tracking-wide flicker-hover">
                 {link}

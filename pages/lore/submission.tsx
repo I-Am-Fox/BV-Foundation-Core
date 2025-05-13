@@ -1,7 +1,7 @@
 // pages/submission.tsx
 import { GetServerSidePropsContext, GetServerSideProps } from 'next';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import DossierEditor from '../../components/DossierEditor';
+import DossierEditor from '../../components/LoreElements/DossierEditor';
 
 export default function SubmitPage() {
   return (

@@ -56,14 +56,24 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [subExpanded, setSubExpanded] = useState<string | null>(null);
   const [showContribute, setShowContribute] = useState(false);
+  const [allExpanded, setAllExpanded] = useState(false);
 
   const toggleExpand = (classification: string) => {
+    if (allExpanded) return;
     setExpanded(expanded === classification ? null : classification);
     setSubExpanded(null);
   };
 
   const toggleSubExpand = (asset: string) => {
     setSubExpanded(subExpanded === asset ? null : asset);
+  };
+
+  const toggleAll = () => {
+    setAllExpanded(!allExpanded);
+    if (!allExpanded) {
+      setExpanded(null);
+      setSubExpanded(null);
+    }
   };
 
   const existing = new Set(entries.map((entry) => entry.frontMatter.classification));
@@ -90,6 +100,7 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
       </>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
+        {/* existing directive blocks */}
         <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">
           <p className="font-mono text-yellow-400 font-semibold">⚠️ MUST READ — CORE INDEX</p>
           <p className="text-sm text-yellow-300 font-mono mt-1">
@@ -111,8 +122,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
             • Submit intel, assets, or redacted entries.
             <br />• All submissions are screened by Protocol‑C.
           </p>
-
-          {/* wrap them in a flex container */}
           <div className="mt-4 flex items-center">
             <Link
               href="/lore/submission"
@@ -120,8 +129,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
             >
               Begin Submission →
             </Link>
-
-            {/* push this to the far right */}
             <Link
               href="/lore/submission-help"
               className="ml-auto text-xs underline text-red-200 hover:text-red-100 transition"
@@ -134,6 +141,16 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
         <ContainmentMonitor entries={entries} />
       </div>
 
+      {/* Expand All Toggle */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={toggleAll}
+          className="text-sm px-3 py-1 border border-green-400 text-green-300 hover:bg-green-800 rounded"
+        >
+          {allExpanded ? 'Collapse All' : 'Expand All'}
+        </button>
+      </div>
+
       <div className="space-y-4">
         {classifications.map((classification) => (
           <div key={classification}>
@@ -141,65 +158,65 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
               onClick={() => toggleExpand(classification)}
               className={`w-full text-left px-4 py-2 transition-all duration-500 ${
                 classification === 'FIELD AGENTS'
-                  ? 'bg-black text-left border border-red-500 text-red-300 hover:bg-red-900 transition-all duration-500"'
+                  ? 'bg-black border border-red-500 text-red-300 hover:bg-red-900'
                   : classification === 'UNRESOLVED'
                     ? 'bg-black border border-fuchsia-500 text-fuchsia-300 hover:bg-fuchsia-900 glitch-text'
-                    : 'bg-black text-left border border-green-500 text-green-300 hover:bg-green-900 transition-all duration-500"'
+                    : 'bg-black border border-green-500 text-green-300 hover:bg-green-900'
               }`}
             >
               ▶ {classification}
             </button>
 
             <div
-              className={`overflow-hidden transition-all duration-500 ${expanded === classification ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}
+              className={`overflow-hidden transition-all duration-500 ${
+                allExpanded || expanded === classification
+                  ? 'max-h-[1000px] opacity-100'
+                  : 'max-h-0 opacity-0'
+              }`}
             >
               <div className="pl-4 mt-2 space-y-2">
-                {entries.some((e) => e.frontMatter.classification === classification) ? (
-                  [
-                    ...new Set(
-                      entries
-                        .filter((e) => e.frontMatter.classification === classification)
-                        .map((e) => e.frontMatter.asset || 'Unknown Asset')
-                    ),
-                  ].map((asset) => (
-                    <div key={asset}>
-                      <button
-                        onClick={() => toggleSubExpand(asset)}
-                        className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300"
-                      >
-                        📁 {asset}
-                      </button>
-                      <div
-                        className={`overflow-hidden transition-all duration-500 pl-6 ${subExpanded === asset ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}
-                      >
-                        <ul className="list-disc list-inside text-green-300">
-                          {entries
-                            .filter(
-                              (e) =>
-                                e.frontMatter.classification === classification &&
-                                e.frontMatter.asset === asset
-                            )
-                            .map((e) => (
-                              <li key={e.slug}>
-                                <Link
-                                  href={`/lore/${e.slug}`}
-                                  className="hover:text-green-100 underline"
-                                >
-                                  {e.frontMatter.title}
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div>
-                    <button className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 cursor-not-allowed">
-                      📁 [REDACTED]
+                {[
+                  ...new Set(
+                    entries
+                      .filter((e) => e.frontMatter.classification === classification)
+                      .map((e) => e.frontMatter.asset || 'Unknown Asset')
+                  ),
+                ].map((asset) => (
+                  <div key={asset}>
+                    <button
+                      onClick={() => toggleSubExpand(asset)}
+                      className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300"
+                    >
+                      📁 {asset}
                     </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-500 pl-6 ${
+                        allExpanded || subExpanded === asset
+                          ? 'max-h-[1000px] opacity-100'
+                          : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <ul className="list-disc list-inside text-green-300">
+                        {entries
+                          .filter(
+                            (e) =>
+                              e.frontMatter.classification === classification &&
+                              e.frontMatter.asset === asset
+                          )
+                          .map((e) => (
+                            <li key={e.slug}>
+                              <Link
+                                href={`/lore/${e.slug}`}
+                                className="hover:text-green-100 underline"
+                              >
+                                {e.frontMatter.title}
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
             </div>
           </div>

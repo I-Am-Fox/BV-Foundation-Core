@@ -156,8 +156,9 @@ export default function PrivacyPage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xl text-green-300 font-semibold mb-2">Who We Share Information With</h2>
-        <ul className="text-sm list-disc list-inside">
+        <h2 className="text-xl text-green-300 font-semibold mb-2">Internal Access & Moderation</h2>
+
+      <ul className="text-sm list-disc list-inside">
           <li>
             <strong>Netlify:</strong> Hosting platform for domain and site content
           </li>
@@ -165,6 +166,16 @@ export default function PrivacyPage() {
             <strong>Supabase:</strong> Authentication, database, and submission system services
           </li>
         </ul>
+        <p className="text-sm opacity-80 mt-2">
+          In order to maintain system integrity and prevent abuse, designated site administrators (Namely; TehLuna) have
+          access to certain user metadata such as IP addresses and last access timestamps. This data is
+          visible only within secured moderation tools, is never shared externally, and is used solely
+          for security, anti-abuse, or diagnostic purposes.
+        </p>
+        <p className="text-sm opacity-80 mt-2">
+          We may also use this data to contact you if we suspect your account has been compromised or
+          if we need to verify your identity.
+        </p>
       </section>
 
       <section className="mb-8">

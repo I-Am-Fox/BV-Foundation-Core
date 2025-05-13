@@ -1,12 +1,14 @@
 // pages/profile.tsx
 import { useEffect, useState } from 'react';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
 export default function ProfilePage() {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const router = useRouter();
 
   const [username, setUsername] = useState('');
   const [lastChanged, setLastChanged] = useState<Date | null>(null);
@@ -121,6 +123,21 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmation = confirm(
+      'Are you sure you want to permanently delete your account? This cannot be undone.'
+    );
+    if (!confirmation) return;
+
+    const { error } = await supabase.auth.admin.deleteUser(session!.user.id);
+    if (error) {
+      setError('❌ Failed to delete account.');
+    } else {
+      setMessage('✅ Account deleted. Redirecting...');
+      setTimeout(() => router.push('/'), 2000);
+    }
+  };
+
   if (!session?.user) return <p className="text-white p-4">Loading...</p>;
 
   const isAdmin = session.user.email === ADMIN_EMAIL;
@@ -207,6 +224,24 @@ export default function ProfilePage() {
             ))}
           </ul>
         </div>
+      </div>
+
+      {/* Account Deletion */}
+      <div className="mt-10 border border-red-700 p-4 bg-red-950">
+        <h2 className="text-lg font-bold mb-2 text-red-400">Danger Zone</h2>
+        <p className="text-sm mb-4 text-red-300">Once deleted, your account cannot be recovered.</p>
+        <button
+          disabled={isAdmin}
+          onClick={handleDeleteAccount}
+          className="bg-red-700 hover:bg-red-600 text-black font-bold py-1 px-4 disabled:opacity-40"
+        >
+          Delete My Account
+        </button>
+        {isAdmin && (
+          <p className="text-xs text-red-300 mt-2">
+            Administrators cannot delete their accounts via this panel.
+          </p>
+        )}
       </div>
 
       {/* Modal */}

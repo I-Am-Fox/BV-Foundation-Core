@@ -98,12 +98,95 @@ export default function DossierEditor() {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    if (!asset) {
+      setError('Please enter an asset name / codename.');
+      setLoading(false);
+      return;
+    }
+    if (!title) {
+      setError('Please enter a title.');
+      setLoading(false);
+      return;
+    }
+
+    if (!classification) {
+      setError('Please select a classification.');
+      setLoading(false);
+      return;
+    }
+
+    if (!date) {
+      setError('Please select a date.');
+      setLoading(false);
+      return;
+    }
+
+    if (!summary) {
+      setError('Please enter a summary.');
+      setLoading(false);
+      return;
+    }
+
+    if (entryType === 'dossier' && !containment) {
+      setError('Please enter containment procedures.');
+      setLoading(false);
+      return;
+    }
+
+    if (entryType === 'dossier' && !logs) {
+      setError('Please enter incident logs.');
+      setLoading(false);
+      return;
+    }
+
+    if (entryType === 'dossier' && !analysis) {
+      setError('Please enter analysis.');
+      setLoading(false);
+      return;
+    }
+
+    const cls = (classification as string).toUpperCase() as ClassType;
+    const codenameMatch = asset.match(/['"“”]([^'"“”]+)['"“”]/);
+    const codename = codenameMatch ? codenameMatch[1] : asset.split(' ')[1] || 'Codename';
+    const filename = `${cls}_${codename.replace(/\s+/g, '')}.mdx`;
+
+    const mdx = generateMDX();
+
+    const mdxFile = new File([mdx], filename, { type: 'text/markdown' });
+
+    const formData = new FormData();
+    formData.append('file', mdxFile);
+
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+      if (response.ok && result.success) {
+        setSuccessMessage('Dossier submitted successfully!');
+      } else {
+        setError(result.error || 'Failed to submit dossier.');
+      }
+    } catch (err) {
+      setError('Failed to submit dossier.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row transition-all duration-300">
       <div
         className={`w-full ${previewOpen ? 'md:w-1/2' : 'md:w-full'} transition-all duration-300`}
       >
-        <form className="space-y-6 max-w-3xl mx-auto p-4">
+        <form className="space-y-6 max-w-3xl mx-auto p-4" onSubmit={handleSubmit}>
           <h2 className="text-xl text-green-300 font-bold">Dossier Submission</h2>
           <button
             type="button"
@@ -190,6 +273,33 @@ export default function DossierEditor() {
               onChange={(e) => setDate(e.target.value)}
               className="w-full p-2 border rounded bg-gray-700"
             />
+          </div>
+
+          <div>
+            <label className="block font-medium">Asset Name / Codename</label>
+            <input
+                type="text"
+                value={asset}
+                onChange={(e) => setAsset(e.target.value)}
+                placeholder='e.g. ASSET-CV-07 “Corvus”'
+                className="w-full p-2 border rounded bg-gray-700"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium">Asset Class</label>
+            <select
+              value={classification}
+              onChange={(e) => setClassification(e.target.value as ClassType)}
+              className="w-full p-2 border rounded bg-gray-700"
+            >
+              <option value="">Select a class</option>
+              {ALLOWED_CLASSES.map((cls) => (
+                <option key={cls} value={cls}>
+                  {cls}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

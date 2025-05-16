@@ -20,7 +20,7 @@ export default function TopNav() {
         const { data } = await supabase
           .from('profiles')
           .select('username')
-          .eq('id', session.user.id)
+          .eq('uuid', session.user.id)
           .single();
         if (data?.username) setUsername(data.username);
       }
@@ -95,7 +95,7 @@ export default function TopNav() {
                   <ul className="absolute right-0 mt-2 w-44 bg-black border border-green-600 text-green-300 shadow-lg font-mono text-xs z-50">
                     <li>
                       <Link
-                        href="/pages/profile-[username]"
+                        href={`/profile/${username}`}
                         className="block px-4 py-2 hover:bg-green-800"
                       >
                         Profile Settings

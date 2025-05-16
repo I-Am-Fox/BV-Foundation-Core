@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 
-const router = useRouter();
-
 export default function DiscordUsernameOnboarding({ onComplete }: { onComplete?: () => void }) {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [username, setUsername] = useState(session?.user?.user_metadata?.display_name || '');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // Username: letters, numbers, underscores, 3-24 chars
   const isUsernameValid = (name: string) => /^[a-zA-Z0-9_]{3,24}$/.test(name);

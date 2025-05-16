@@ -278,11 +278,11 @@ export default function DossierEditor() {
           <div>
             <label className="block font-medium">Asset Name / Codename</label>
             <input
-                type="text"
-                value={asset}
-                onChange={(e) => setAsset(e.target.value)}
-                placeholder='e.g. ASSET-CV-07 “Corvus”'
-                className="w-full p-2 border rounded bg-gray-700"
+              type="text"
+              value={asset}
+              onChange={(e) => setAsset(e.target.value)}
+              placeholder="e.g. ASSET-CV-07 “Corvus”"
+              className="w-full p-2 border rounded bg-gray-700"
             />
           </div>
 

@@ -164,8 +164,6 @@ export default function DossierEditor() {
     const safeEntryTitle = entryTitle.replace(/[^a-z0-9-]/gi, '-').toLowerCase();
     const filename = `${cls}_${codename.replace(/\s+/g, '')}-${safeEntryTitle}.mdx`;
 
-
-
     const mdx = generateMDX();
 
     const mdxFile = new File([mdx], filename, { type: 'text/markdown' });
@@ -278,12 +276,12 @@ export default function DossierEditor() {
           <div>
             <label className="block font-medium">Entry Title (unique per asset)</label>
             <input
-                type="text"
-                value={entryTitle}
-                onChange={(e) => setEntryTitle(e.target.value)}
-                placeholder="e.g. dossier, addendum-1, incident-a"
-                className="w-full p-2 border rounded bg-gray-700"
-                required
+              type="text"
+              value={entryTitle}
+              onChange={(e) => setEntryTitle(e.target.value)}
+              placeholder="e.g. dossier, addendum-1, incident-a"
+              className="w-full p-2 border rounded bg-gray-700"
+              required
             />
           </div>
 

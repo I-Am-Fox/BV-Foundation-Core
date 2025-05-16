@@ -22,6 +22,7 @@ export default function DossierEditor() {
   const [entryType, setEntryType] = useState<'dossier' | 'log' | 'analysis' | 'other'>('dossier');
   const [knownAssets, setKnownAssets] = useState<AssetMeta[]>([]);
 
+  const [entryTitle, setEntryTitle] = useState('');
   const [title, setTitle] = useState('');
   const [classification, setClassification] = useState<ClassType | ''>('');
   const [asset, setAsset] = useState('');
@@ -154,7 +155,16 @@ export default function DossierEditor() {
     const cls = (classification as string).toUpperCase() as ClassType;
     const codenameMatch = asset.match(/['"“”]([^'"“”]+)['"“”]/);
     const codename = codenameMatch ? codenameMatch[1] : asset.split(' ')[1] || 'Codename';
-    const filename = `${cls}_${codename.replace(/\s+/g, '')}.mdx`;
+
+    if (!entryTitle) {
+      setError('Please enter an entry title.');
+      setLoading(false);
+      return;
+    }
+    const safeEntryTitle = entryTitle.replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+    const filename = `${cls}_${codename.replace(/\s+/g, '')}-${safeEntryTitle}.mdx`;
+
+
 
     const mdx = generateMDX();
 
@@ -262,6 +272,18 @@ export default function DossierEditor() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full p-2 border rounded bg-gray-700"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium">Entry Title (unique per asset)</label>
+            <input
+                type="text"
+                value={entryTitle}
+                onChange={(e) => setEntryTitle(e.target.value)}
+                placeholder="e.g. dossier, addendum-1, incident-a"
+                className="w-full p-2 border rounded bg-gray-700"
+                required
             />
           </div>
 

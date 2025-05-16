@@ -40,7 +40,6 @@ export default function Auth() {
       }
     };
     checkProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.user?.id]);
 
   // Email/password sign up and login

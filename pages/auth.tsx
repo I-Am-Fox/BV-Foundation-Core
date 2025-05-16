@@ -29,10 +29,10 @@ export default function Auth() {
     const checkProfile = async () => {
       if (session?.user?.id) {
         const { data } = await supabase
-            .from('profiles')
-            .select('username')
-            .eq('uuid', session.user.id)
-            .maybeSingle();
+          .from('profiles')
+          .select('username')
+          .eq('uuid', session.user.id)
+          .maybeSingle();
         setNeedsUsername(!data);
         setCheckedProfile(true);
       } else {
@@ -66,10 +66,10 @@ export default function Auth() {
       }
 
       const { data: existingProfile } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('username', username)
-          .maybeSingle();
+        .from('profiles')
+        .select('username')
+        .eq('username', username)
+        .maybeSingle();
 
       if (existingProfile) {
         setError('Username already taken');
@@ -97,8 +97,8 @@ export default function Auth() {
       }
 
       const { error: profileInsertError } = await supabase
-          .from('profiles')
-          .insert([{ uuid, username }]);
+        .from('profiles')
+        .insert([{ uuid, username }]);
 
       if (profileInsertError) {
         setError('Profile creation failed');
@@ -144,128 +144,128 @@ export default function Auth() {
 
   // Main Auth UI
   return (
-      <div className="flex justify-center items-center min-h-screen bg-black px-4 z-10">
-        <MatrixRain />
-        <div className="w-full max-w-md bg-neutral-900 border border-green-800 rounded p-6 shadow-2xl z-10">
-          <h1 className="text-2xl font-bold text-green-300 mb-4 text-center">
-            {mode === 'login' ? 'Welcome back' : 'Join the Archive'}
-          </h1>
+    <div className="flex justify-center items-center min-h-screen bg-black px-4 z-10">
+      <MatrixRain />
+      <div className="w-full max-w-md bg-neutral-900 border border-green-800 rounded p-6 shadow-2xl z-10">
+        <h1 className="text-2xl font-bold text-green-300 mb-4 text-center">
+          {mode === 'login' ? 'Welcome back' : 'Join the Archive'}
+        </h1>
 
-          <button
-              onClick={handleDiscordLogin}
-              className="w-full bg-discord py-2 mb-4 rounded font-bold flex items-center justify-center transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-              disabled={loading}
-              type="button"
+        <button
+          onClick={handleDiscordLogin}
+          className="w-full bg-discord py-2 mb-4 rounded font-bold flex items-center justify-center transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          disabled={loading}
+          type="button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={20}
+            height={20}
+            fill="currentColor"
+            className="mr-2"
+            viewBox="0 0 24 24"
           >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={20}
-                height={20}
-                fill="currentColor"
-                className="mr-2"
-                viewBox="0 0 24 24"
-            >
-              <path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515..."></path>
-            </svg>
-            Sign in with Discord
-          </button>
+            <path d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515..."></path>
+          </svg>
+          Sign in with Discord
+        </button>
 
-          <div className="my-3 flex items-center">
-            <hr className="flex-1 border-gray-700" />
-            <span className="mx-2 text-gray-400 text-xs">or</span>
-            <hr className="flex-1 border-gray-700" />
-          </div>
+        <div className="my-3 flex items-center">
+          <hr className="flex-1 border-gray-700" />
+          <span className="mx-2 text-gray-400 text-xs">or</span>
+          <hr className="flex-1 border-gray-700" />
+        </div>
 
+        <input
+          className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        {mode === 'signup' && (
           <input
-              className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
+            type="text"
+            placeholder="Username (display name)"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            maxLength={24}
           />
+        )}
 
-          {mode === 'signup' && (
-              <input
-                  className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
-                  type="text"
-                  placeholder="Username (display name)"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  maxLength={24}
-              />
-          )}
+        <input
+          className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <input
+        {mode === 'signup' && (
+          <>
+            <input
               className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
               type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-          />
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
-          {mode === 'signup' && (
-              <>
-                <input
-                    className="w-full p-2 mb-3 border rounded bg-gray-800 text-white"
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+            <label className="flex items-center text-xs text-green-300 mb-1">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={() => setAgreedToTerms(!agreedToTerms)}
+                className="mr-2 accent-green-500"
+              />
+              I agree to the{' '}
+              <a href="/terms" className="underline ml-1" target="_blank" rel="noopener noreferrer">
+                Terms of Use
+              </a>
+            </label>
 
-                <label className="flex items-center text-xs text-green-300 mb-1">
-                  <input
-                      type="checkbox"
-                      checked={agreedToTerms}
-                      onChange={() => setAgreedToTerms(!agreedToTerms)}
-                      className="mr-2 accent-green-500"
-                  />
-                  I agree to the{' '}
-                  <a href="/terms" className="underline ml-1" target="_blank" rel="noopener noreferrer">
-                    Terms of Use
-                  </a>
-                </label>
+            <label className="flex items-center text-xs text-green-300 mb-3">
+              <input
+                type="checkbox"
+                checked={agreedToPrivacy}
+                onChange={() => setAgreedToPrivacy(!agreedToPrivacy)}
+                className="mr-2 accent-green-500"
+              />
+              I agree to the{' '}
+              <a
+                href="/privacy"
+                className="underline ml-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </a>
+            </label>
+          </>
+        )}
 
-                <label className="flex items-center text-xs text-green-300 mb-3">
-                  <input
-                      type="checkbox"
-                      checked={agreedToPrivacy}
-                      onChange={() => setAgreedToPrivacy(!agreedToPrivacy)}
-                      className="mr-2 accent-green-500"
-                  />
-                  I agree to the{' '}
-                  <a
-                      href="/privacy"
-                      className="underline ml-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                  >
-                    Privacy Policy
-                  </a>
-                </label>
-              </>
-          )}
+        {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
-          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+        <button
+          onClick={handleSubmit}
+          disabled={loading || (mode === 'signup' && (!agreedToTerms || !agreedToPrivacy))}
+          className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2 disabled:opacity-50"
+        >
+          {loading ? 'Loading...' : mode === 'login' ? 'Access Network' : 'Request Access'}
+        </button>
 
+        <p className="text-center text-sm text-green-400 mt-4">
+          {mode === 'login' ? 'Need an account?' : 'Already have access?'}{' '}
           <button
-              onClick={handleSubmit}
-              disabled={loading || (mode === 'signup' && (!agreedToTerms || !agreedToPrivacy))}
-              className="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-2 mt-2 disabled:opacity-50"
+            onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+            className="underline font-bold text-white"
           >
-            {loading ? 'Loading...' : mode === 'login' ? 'Access Network' : 'Request Access'}
+            {mode === 'login' ? 'Sign up' : 'Log in'}
           </button>
-
-          <p className="text-center text-sm text-green-400 mt-4">
-            {mode === 'login' ? 'Need an account?' : 'Already have access?'}{' '}
-            <button
-                onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
-                className="underline font-bold text-white"
-            >
-              {mode === 'login' ? 'Sign up' : 'Log in'}
-            </button>
-          </p>
-        </div>
+        </p>
       </div>
+    </div>
   );
 }

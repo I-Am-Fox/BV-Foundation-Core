@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useSupabaseClient, useSession } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
+
+const router = useRouter();
 
 export default function DiscordUsernameOnboarding({ onComplete }: { onComplete?: () => void }) {
   const supabase = useSupabaseClient();
@@ -65,7 +68,7 @@ export default function DiscordUsernameOnboarding({ onComplete }: { onComplete?:
 
     setLoading(false);
     if (onComplete) onComplete();
-    // Optionally, reload the page or redirect if needed
+    router.push('/lore');
   };
 
   return (

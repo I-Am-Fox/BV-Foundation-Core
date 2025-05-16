@@ -42,6 +42,13 @@ export default function Auth() {
     checkProfile();
   }, [session?.user?.id]);
 
+  // Redirect to /lore if already logged in
+  useEffect(() => {
+    if (session && checkedProfile && !needsUsername) {
+      router.push('/lore');
+    }
+  }, [session, checkedProfile, needsUsername, router]);
+
   // Email/password sign up and login
   const handleSubmit = async () => {
     setError(null);

@@ -31,7 +31,7 @@ export default function Auth() {
         const { data } = await supabase
           .from('profiles')
           .select('username')
-          .eq('uuid', session.user.id)
+          .eq('id', session.user.id)
           .maybeSingle();
         setNeedsUsername(!data);
         setCheckedProfile(true);

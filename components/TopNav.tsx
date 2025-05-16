@@ -20,7 +20,7 @@ export default function TopNav() {
         const { data } = await supabase
           .from('profiles')
           .select('username')
-          .eq('uuid', session.user.id)
+          .eq('id', session.user.id)
           .single();
         if (data?.username) setUsername(data.username);
       }

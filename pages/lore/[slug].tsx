@@ -9,6 +9,7 @@ import HeaderSection from '../../components/LoreElements/HeaderSection';
 import WarningBox from '../../components/LoreElements/WarningBox';
 import DossierTagList from '../../components/LoreElements/DossierTagList';
 import { MdxFrontmatterSchema, MdxFrontmatter } from '../../lib/mdx-schema';
+import {InterviewLog, Action, Dialogue} from "../../components/DossierElements/InterviewLogs";
 
 interface Props {
   frontMatter: MdxFrontmatter;
@@ -19,7 +20,7 @@ export default function LoreEntry({ frontMatter, mdxSource }: Readonly<Props>) {
   return (
     <div className="bg-black text-white min-h-screen p-4">
       <div className="prose prose-invert max-w-4xl mx-auto">
-        <MDXRemote {...mdxSource} components={{ HeaderSection, WarningBox, DossierTagList }} />
+        <MDXRemote {...mdxSource} components={{ HeaderSection, WarningBox, DossierTagList, InterviewLog, Action, Dialogue }} />
       </div>
     </div>
   );

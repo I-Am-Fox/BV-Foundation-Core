@@ -1,0 +1,275 @@
+/* Main red box with soft glow */
+.redBoxGlitch {
+  background: rgba(46, 0, 0, 0.92);
+  border: 2px solid #ff3131;
+  border-radius: 1rem;
+  box-shadow:
+    0 0 28px #ff313180,
+    0 0 3px #000a;
+  padding: 2.5rem 3rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Glitchy header text */
+.glitchHeader {
+  color: #ff4040;
+  font-family: 'Share Tech Mono', 'Fira Mono', 'Menlo', monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  text-shadow:
+    2px 0 #ff2b2b80,
+    -2px 0 #43fff980,
+    0 2px #fff9;
+  animation: flickerText 1.7s infinite alternate;
+}
+
+/* Neon-red input styling */
+.glitchyInput {
+  background: #180000;
+  color: #ff4040;
+  border: 1.5px solid #ff4040a1;
+  font-family: 'Fira Mono', monospace;
+  font-size: 1.05em;
+  margin-bottom: 1em;
+  padding: 0.7em 1em;
+  border-radius: 0.65em;
+  outline: none;
+  box-shadow:
+    0 0 10px #d00b,
+    0 0 1.5px #fff5;
+  transition:
+    border 0.15s,
+    box-shadow 0.2s;
+}
+
+.glitchyInput:focus {
+  border-color: #0ff;
+  box-shadow: 0 0 14px #0ffb;
+}
+
+/* Input error: shake animation and error border */
+.shake {
+  animation: shake 0.18s;
+  border-color: #ff2222 !important;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/* ENGAGE OVERRIDE button: flicker/glitch */
+.engageOverride {
+  background: #ff3131;
+  color: #fff;
+  font-family: 'Share Tech Mono', 'Fira Mono', monospace;
+  font-size: 1.18rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.7em;
+  margin-top: 1.3em;
+  margin-bottom: 0.9em;
+  padding: 0.9em 1.4em;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  box-shadow:
+    0 0 18px #ff3131cc,
+    0 0 7px #fff5;
+  filter: drop-shadow(0 0 4px #ff3131aa);
+  transition:
+    background 0.14s,
+    box-shadow 0.16s,
+    color 0.2s;
+}
+
+.engageOverride:disabled {
+  background: #780606;
+  color: #ffbabaa8;
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: none;
+}
+
+.engageOverride.flicker {
+  animation: flickerBtn 1.4s infinite alternate;
+}
+
+@keyframes flickerBtn {
+  0%,
+  100% {
+    box-shadow:
+      0 0 18px #ff313199,
+      0 0 8px #fff4;
+  }
+  50% {
+    box-shadow:
+      0 0 38px #ff3131bb,
+      0 0 12px #fff7;
+  }
+}
+
+/* Glitch scanline overlay */
+.glitchOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scanlineAnimation {
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(0deg, #18181a 0px, #18181a 7px, #222225 7px, #222225 14px);
+  opacity: 0.13;
+  animation: scan 2.9s infinite linear;
+}
+
+@keyframes scan {
+  0% {
+    opacity: 0.13;
+  }
+  45% {
+    opacity: 0.24;
+  }
+  100% {
+    opacity: 0.13;
+  }
+}
+
+/* Flicker header or status console */
+@keyframes flickerText {
+  0%,
+  100% {
+    color: #fff;
+  }
+  52% {
+    color: #ffdede;
+  }
+}
+
+/* Status/console text */
+.consoleStatus {
+  color: #ffb2b2;
+  font-family: 'Fira Mono', monospace;
+  font-size: 0.98em;
+  margin-top: 1em;
+  opacity: 0.72;
+  letter-spacing: 0.03em;
+  text-align: center;
+  user-select: none;
+}
+
+.glitchPageShake {
+  animation: glitch-shake 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes glitch-shake {
+  0% {
+    transform: translate(0, 0) skew(0deg);
+  }
+  15% {
+    transform: translate(-5px, 2px) skew(-1deg);
+  }
+  20% {
+    transform: translate(7px, -1px) skew(1deg);
+  }
+  25% {
+    transform: translate(-4px, 3px) skew(-1deg);
+  }
+  30% {
+    transform: translate(4px, 2px) skew(2deg);
+  }
+  40% {
+    transform: translate(-3px, 1px) skew(-2deg);
+  }
+  50% {
+    transform: translate(2px, -2px) skew(0deg);
+  }
+  60% {
+    transform: translate(-5px, 2px) skew(1deg);
+  }
+  75% {
+    transform: translate(5px, -3px) skew(-2deg);
+  }
+  80% {
+    transform: translate(-2px, 3px) skew(1deg);
+  }
+  100% {
+    transform: translate(0, 0) skew(0deg);
+  }
+}
+
+/* Add below your scanlineAnimation and other styles */
+
+.cssNoiseOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 61;
+  /* Create a tiny dot pattern using two gradients */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(200, 200, 200, 0.04) 0,
+      rgba(200, 200, 200, 0.04) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(200, 200, 200, 0.04) 0,
+      rgba(200, 200, 200, 0.04) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: screen;
+  opacity: 0.17;
+  animation: css-noise-move 1.4s steps(5) infinite;
+}
+
+@keyframes css-noise-move {
+  0% {
+    background-position:
+      0 0,
+      0 0;
+  }
+  20% {
+    background-position:
+      7px 12px,
+      3px 8px;
+  }
+  40% {
+    background-position:
+      5px 15px,
+      10px 6px;
+  }
+  60% {
+    background-position:
+      12px 4px,
+      8px 12px;
+  }
+  80% {
+    background-position:
+      2px 7px,
+      7px 4px;
+  }
+  100% {
+    background-position:
+      0 0,
+      0 0;
+  }
+}

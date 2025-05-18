@@ -10,6 +10,8 @@ import TopNav from '../components/TopNav';
 import Footer from '../components/Footer';
 import { AnimatePresence, motion } from 'framer-motion';
 import axios from 'axios';
+import GlitchTopNav from '../components/CTFComponents/TopNav';
+import GlitchFooter from '../components/CTFComponents/Footer';
 
 export default function App({
   Component,
@@ -18,6 +20,7 @@ export default function App({
   const router = useRouter();
   const isLandingPage = router.pathname === '/';
   const [supabaseClient] = useState(() => createPagesBrowserClient());
+  const isClassifiedPage = router.pathname === '/classified';
 
   useEffect(() => {
     const { data: listener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
@@ -49,7 +52,7 @@ export default function App({
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {!isLandingPage && <TopNav />}
+      {!isLandingPage && (isClassifiedPage ? <GlitchTopNav /> : <TopNav />)}
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -81,7 +84,7 @@ export default function App({
         </motion.div>
       </AnimatePresence>
 
-      {!isLandingPage && <Footer />}
+      {!isLandingPage && (isClassifiedPage ? <GlitchFooter /> : <Footer />)}
     </SessionContextProvider>
   );
 }

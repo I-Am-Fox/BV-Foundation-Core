@@ -57,9 +57,9 @@ Maybe some part of us still lingers.`,
 
   return (
     <>
-      <div className="fixed top-2 left-4 z-50">
+      <div className="fixed top-2 left-4 z-50 group inline-block">
         <button
-          className="text-xs text-black hover:text-pink-400 cursor-pointer font-mono"
+          className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-black hover:text-pink-400 cursor-pointer font-mono"
           onClick={() => {
             setIsVisible(true);
             setPageIndex(0);

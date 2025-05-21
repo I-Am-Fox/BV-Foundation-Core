@@ -86,7 +86,6 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
     'OCTANE CLASS',
     'REVENANT CLASS',
     'THETA CLASS',
-    'UNRESOLVED',
   ].filter((c) => existing.has(c) || ['ALPHA CLASS', 'DELTA CLASS'].includes(c));
 
   return (
@@ -158,9 +157,7 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
               className={`w-full text-left px-4 py-2 transition-all duration-500 ${
                 classification === 'FIELD AGENTS'
                   ? 'bg-black border border-red-500 text-red-300 hover:bg-red-900'
-                  : classification === 'UNRESOLVED'
-                    ? 'bg-black border border-fuchsia-500 text-fuchsia-300 hover:bg-fuchsia-900 glitch-text'
-                    : 'bg-black border border-green-500 text-green-300 hover:bg-green-900'
+                  : 'bg-black border border-green-500 text-green-300 hover:bg-green-900'
               }`}
             >
               ▶ {classification}

@@ -12,7 +12,6 @@ export const MdxFrontmatterSchema = z.object({
     'ANCHOR CLASS',
     'REVENANT CLASS',
     'UNCLASSIFIED',
-    'UNRESOLVED',
     'ALPHA',
     'BETA',
     'DELTA',

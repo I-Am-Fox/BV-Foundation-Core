@@ -76,7 +76,7 @@ We left these traces for those still listening.
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/80">
           <div className="p-4 bg-[#191014] border border-red-700 rounded-xl shadow-2xl max-w-md w-full">
             <p className="text-red-200 text-sm whitespace-pre-line font-mono">{pages[pageIndex]}</p>
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between items-center mt-4">
               <button
                 className="px-3 py-1 bg-red-800 text-white rounded hover:bg-red-600 text-xs font-mono"
                 onClick={() => setPageIndex((prev) => (prev === 0 ? 1 : 0))}
@@ -84,14 +84,13 @@ We left these traces for those still listening.
                 {pageIndex + 1}/2
               </button>
               <span
-                className="artifact-glitch-segment mx-2 select-text transition duration-200
-                opacity-0 group-hover:opacity-100 hover:opacity-100
+                className="artifact-glitch-segment mx-2 select-text transition-opacity duration-200
+                opacity-0 group-hover:opacity-90 hover:opacity-90
                 font-mono text-xs px-2 py-1 rounded border border-red-400 bg-black/70 tracking-wider
                 cursor-pointer"
                 style={{
                   color: '#fecaca',
                   textShadow: '1px 0 #ff4545, -1px 0 #29fff6, 0 1px #fff4',
-                  opacity: 0.85,
                   userSelect: 'text',
                   transition: 'opacity 0.2s',
                 }}

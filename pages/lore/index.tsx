@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { GetStaticProps } from 'next';
 import ContributeModal from '../../components/ContributeModal';
+import Directive from '../../components/Directive';
 import ContainmentMonitor from '../../components/ContainmentMonitor';
 
 type Entry = {
@@ -93,6 +94,10 @@ export default function LoreIndex({ entries }: LoreIndexProps) {
       <h1 className="text-4xl font-bold text-green-400 tracking-widest glow mb-8 terminal-caret text-center">
         BLACK VEIL // CLASSIFIED ARCHIVE
       </h1>
+
+      <>
+        <Directive />
+      </>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <div className="rounded-md border border-yellow-500 bg-yellow-900/10 p-4">

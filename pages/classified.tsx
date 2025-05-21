@@ -45,7 +45,7 @@ export default function ClassifiedCTF() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Replace with your real full-key check
-    if (userInput.trim() === 'U2FuaXR5YWJhbmRvbmVkcGVyc2lzdC1yZWFsaXR5') {
+    if (userInput.trim() === 'U2FuaXR5YWJhbmRvbmVkcGVyc2lzdC1yZWFsaXR5L1ZlZGVsaXQtbGlicmFyeQ==') {
       setSuccess(true);
       setError(false);
     } else {
